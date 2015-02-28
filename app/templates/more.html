@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Test page</title>
+</head>
+
+<body>
+    <h1>Hello aspiring fund manager!</h1>
+    <form action="{{ url_for('moreResults') }}" method="post">
+        <p><label>Security:</label><input type="text" name="security" required></p>
+        <p><label>Strategy:</label><input type="text" name="strategy" required></p>
+        <p><button type="submit">Submit</button></p>
+    </form>
+</body>
+</html>
