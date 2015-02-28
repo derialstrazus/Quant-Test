@@ -29,6 +29,7 @@ def pullData(stock):
         # end: d is month-1, e is day, f is year
         # start: a is month-1, b is day, c is year
 
+        print urlToVisit
         sourceCode = urllib2.urlopen(urlToVisit).read()
         fileDir = os.path.dirname(__file__) + '\\TempData'
         fileName = "tmp" + stock + ".txt"

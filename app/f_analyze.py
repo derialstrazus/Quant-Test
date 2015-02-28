@@ -46,6 +46,13 @@ def runMACD(quotes):
 
     return quotes
 
+def runBollinger(quotes):
+    points = 20
+    pastArray = []
+    quotes['DownBand'] = float('NAN')
+    quotes['UpBand'] = float('NaN')
+    quotes['BollingerTrigger'] = float('NaN')
+
 def tradeLocations(quotes):
     now = 0
     locations = []

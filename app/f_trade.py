@@ -7,7 +7,7 @@ def buildPortfolioDF(quotes):
     portfolio['NetWorth'] = float(0.0)
     return portfolio
 
-def MACDTrading(quotes, trigger, start, end):
+def Trading(quotes, trigger, start, end, portfolio):
     shares = 0
     sharesValue = 0
     capital = 10000
@@ -38,8 +38,15 @@ def MACDTrading(quotes, trigger, start, end):
             netWorth = cash + sharesValue
             print '%s: Sold %d shares, giving net worth of  %.2f' % (quotes.Date[n], sharesValueSold, netWorth )
 
+        portfolio.Cash[n] = cash
+        portfolio.Shares[n] = shares
+        portfolio.SharePrice[n] = quotes.AdjClose[n]
+        portfolio.NetWorth[n] = netWorth
+
     performance = 100.0 * netWorth/capital
-    return netWorth
+    portfolio = portfolio[start:end]
+    return portfolio
+
 
 
 
