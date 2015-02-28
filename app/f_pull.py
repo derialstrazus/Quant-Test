@@ -25,8 +25,12 @@ def pullData(stock):
         # end: d is month-1, e is day, f is year
         # start: a is month-1, b is day, c is year
 
-        sourceCode = urllib2.urlopen(urlToVisit).read().splitlines()
+        sourceCode = urllib2.urlopen(urlToVisit).read()
         print 'Pulled',stock
+        text_file = open("Output" + stock +".txt", "w")
+        text_file.write(sourceCode)
+        text_file.close()
+        print stock + ".txt file created"
         return sourceCode
                 
     except Exception,e:
