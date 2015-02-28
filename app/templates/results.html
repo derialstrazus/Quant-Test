@@ -46,9 +46,12 @@ $(function () {
         <p>{{ lines }}</p>
     {% endfor %}
 
-    <p>You've ended up with a net worth of {{ netWorth }}!</p>
-    <p>Your annual return is {{ AnnualReturn }}</p>
-    <p>Your total annualize return is {{ totalAnnualReturn }}</p>
+    <p>You started with $10,000, and ended up with a net worth of {{ netWorth }}!</p></br>
+    <p>Your annual return for every year is shown below:</p>
+    {% for n in range(0,3) %}
+        <p>Annual return for {{ resultYears[n] }} is {{ AnnualReturn[n] }}</p>
+    {% endfor %}
+    </br><p>Your total annualize return is {{ totalAnnualReturn }}</p>
     <script type="text/javascript" src="{{ url_for('static', filename='exporting.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='highstock.js') }}"></script>
 

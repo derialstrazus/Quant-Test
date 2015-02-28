@@ -52,6 +52,7 @@ def results(security):
     #print tradeat
     portfolio = Trading(quotes, 'BollingerTrigger', 0, len(portfolio), portfolio)
     AnnualReturn, totalAnnualReturn = AnnualizeReturn(0, len(portfolio), portfolio)
+    resultYears = [2011, 2012, 2013]
     print portfolio.head(10)
     return render_template('results.html',
                            security=security,
@@ -59,4 +60,5 @@ def results(security):
                            #tradeat=tradeat,
                            netWorth=portfolio.NetWorth[len(portfolio)-1],
                            AnnualReturn=AnnualReturn,
-                           totalAnnualReturn=totalAnnualReturn)
+                           totalAnnualReturn=totalAnnualReturn,
+                           resultYears=resultYears)
