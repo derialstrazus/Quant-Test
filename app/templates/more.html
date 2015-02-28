@@ -9,7 +9,13 @@
     <h1>Hello aspiring fund manager!</h1>
     <form action="{{ url_for('moreResults') }}" method="post">
         <p><label>Security:</label><input type="text" name="security" required></p>
-        <p><label>Strategy:</label><input type="text" name="strategy" required></p>
+        <p><label>Strategy:</label>
+            <select name="strategy" required>
+                <option value="MACD">MACD</option>
+                <option value="Bollinger Bands">Bollinger Bands</option>
+                <option value="30-Day High">30-Day High</option>
+            </select>
+        </p>
         <p><button type="submit">Submit</button></p>
     </form>
 </body>
