@@ -1,7 +1,7 @@
 from flask import render_template, redirect, url_for, request, session
 from app import app
 from .forms import SecurityForm
-from .finance import pullData, printStock
+from .f_pull import pullData, printStock
 
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/index', methods=['GET', 'POST'])
