@@ -32,7 +32,7 @@ def results(security):
     print sourceCode[:20]
     previewData = sourceCode.splitlines()[:6]
     # plotData = printStock(sourceCode)
-    fileDir = os.path.dirname(__file__) + '\\tmp'
+    fileDir = os.path.dirname(__file__) + '\\TempData'
     fileName = "Output" + security + ".txt"
     filePath = os.path.join(fileDir, fileName)
 

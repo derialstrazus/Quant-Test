@@ -20,13 +20,17 @@ def getStocks():
 def pullData(stock):
     try:
         today = datetime.date.today()
+        saveDir = os.path.dirname(__file__) + "\\TempData"
+        if not os.path.exists(saveDir):
+            os.makedirs(saveDir)
+
         print '\nCurrently pulling',stock
         urlToVisit = 'http://real-chart.finance.yahoo.com/table.csv?s=%s&d=%d&e=%d&f=%d&g=d&a=11&b=12&c=2000&ignore=.csv' % (stock, today.month - 1, today.day, today.year)
         # end: d is month-1, e is day, f is year
         # start: a is month-1, b is day, c is year
 
         sourceCode = urllib2.urlopen(urlToVisit).read()
-        fileDir = os.path.dirname(__file__) + '\\tmp'
+        fileDir = os.path.dirname(__file__) + '\\TempData'
         fileName = "Output" + stock + ".txt"
         filePath = os.path.join(fileDir, fileName)
         print 'Pulled',stock
