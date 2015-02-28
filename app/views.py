@@ -3,7 +3,7 @@ from app import app
 from .forms import SecurityForm
 from .f_pull import pullData, printStock
 from .f_analyze import prepFile, runMACD, tradeLocations
-from .f_trade import Trading, buildPortfolioDF
+from .f_trade import Trading, buildPortfolioDF, AnnualizeReturn
 import os
 
 @app.route('/', methods=['GET', 'POST'])
@@ -45,9 +45,11 @@ def results(security):
     tradeat = tradeLocations(quotes)
     print tradeat
     portfolio = Trading(quotes, 'MACDTrigger', 0, len(portfolio), portfolio)
+    AnnualReturn = AnnualizeReturn(0, len(portfolio), portfolio)
     print portfolio.head(10)
     return render_template('results.html',
                            security=security,
                            data=previewData,
                            tradeat=tradeat,
-                           netWorth=portfolio.NetWorth[len(portfolio)-1])
+                           netWorth=portfolio.NetWorth[len(portfolio)-1],
+                           AnnualReturn=AnnualReturn)

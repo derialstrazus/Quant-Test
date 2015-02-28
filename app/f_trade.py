@@ -1,3 +1,5 @@
+import re
+
 def buildPortfolioDF(quotes):
     portfolio = quotes
     portfolio = portfolio.drop(['Open', 'High', 'Low', 'Close', 'Volume', 'AdjClose'], 1)
@@ -47,6 +49,16 @@ def Trading(quotes, trigger, start, end, portfolio):
     portfolio = portfolio[start:end]
     return portfolio
 
-def AnnualizeReturn(quotes, start, end, portfolio):
+def AnnualizeReturn(start, end, portfolio):
+    #regex = re.compile('201')
+    for n in range(start, end):
+        if portfolio.Date[n] == '2013-12-31':
+            startNetWorth = portfolio.NetWorth[n]
+        elif portfolio.Date[n] == '2014-12-31':
+            endNetWorth = portfolio.NetWorth[n]
+    annualReturn = (endNetWorth-startNetWorth)/startNetWorth *100
+    return annualReturn
+
+
 
 
