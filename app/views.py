@@ -1,4 +1,4 @@
-from flask import render_template, redirect, url_for
+from flask import render_template, redirect, url_for, request, session
 from app import app
 from .forms import SecurityForm
 from .finance import pullData, printStock
@@ -12,6 +12,17 @@ def index():
         return redirect(url_for('results', security=security))
     return render_template('index.html',
                            form=form)
+
+@app.route('/more')
+def more():
+    return render_template('more.html')
+
+@app.route('/moreresults', methods=['POST'])
+def moreResults():
+    session['security'] = request.form['security']
+    session['strategy'] = request.form['strategy']
+    return render_template('moreresults.html', security=session['security'], strategy=session['strategy'])
+
 
 @app.route('/results/<security>', methods=['GET', 'POST'])
 def results(security):
