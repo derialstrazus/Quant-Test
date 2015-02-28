@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>PyStock Indicators</title>
+    <link href="{{ url_for('static', filename='style/bootstrap.min.css') }}" rel="stylesheet">
+</head>
+
+<body>
+
+
+    <div class="container">
+         <h1 class="modal-title">Hello aspiring fund manager!</h1>
+         <h2>What security would you like to analyze?</h2>
+        <form role="form" action="" method="post" name="security">
+            {{ form.hidden_tag() }}
+            <div class="form-group">
+                <label for="security">Enter Security: </label>
+                {{ form.security(size=10,maxLength=10,class="form-control",placeholder="Ex: MSFT") }}
+            </div>
+             <button type="submit" value="Submit"class="btn btn-primary">Submit</button>
+        </form>
+          <div>
+              <br>
+            <p>Would you like to <a href="{{ url_for('more') }}">choose</a> which strategy to use?</p>
+        </div>
+    </div>
+
+
+
+    <script type="text/javascript" src="{{ url_for('static', filename='scripts/jquery-1.11.2.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='scripts/bootstrap.min.js') }}"></script>
+
+
+</body>
+</html>

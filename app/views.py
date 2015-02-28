@@ -23,8 +23,14 @@ def more():
 @app.route('/moreresults', methods=['POST'])
 def moreResults():
     session['security'] = request.form['security']
+    print session['security']
+    print '%s.txt' % session['security']
     session['strategy'] = request.form['strategy']
-    return render_template('moreresults.html', security=session['security'], strategy=session['strategy'])
+    session['datestart'] = request.form['datestart']
+    session['dateend'] = request.form['dateend']
+    return render_template('moreresults.html',
+                           security=session['security'],
+                           strategy=session['strategy'])
 
 
 @app.route('/results/<security>', methods=['GET', 'POST'])
