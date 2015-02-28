@@ -9,7 +9,6 @@ def prepFile(sourceFile):
     return quotes
 
 def runMACD(quotes):
-
     quotes['MAShort'] = float('NaN')
     Sum = 0
     for n in range(0,MA_SHORT):
