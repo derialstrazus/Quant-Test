@@ -46,6 +46,8 @@ $(function () {
         <p>{{ lines }}</p>
     {% endfor %}
 
+    <p>You've ended up with a net worth of {{ netWorth }}!</p>
+
     <script type="text/javascript" src="{{ url_for('static', filename='exporting.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='highstock.js') }}"></script>
 

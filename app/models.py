@@ -3,5 +3,5 @@ from pandas import Series, DataFrame
 
 def userPortfolio():
     portfolio = DataFrame()
-    portfolio.columns = ['','','']
+    portfolio.columns = ['Date','Capital','Shares','SharePrice','NetWorth']
     return portfolio

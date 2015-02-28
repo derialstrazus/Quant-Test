@@ -31,13 +31,27 @@ def pullData(stock):
 
         sourceCode = urllib2.urlopen(urlToVisit).read()
         fileDir = os.path.dirname(__file__) + '\\TempData'
-        fileName = "Output" + stock + ".txt"
+        fileName = "tmp" + stock + ".txt"
         filePath = os.path.join(fileDir, fileName)
         print 'Pulled',stock
         text_file = open(filePath, "w")
         text_file.write(sourceCode)
-        text_file.close()
         print stock + ".txt file created"
+
+        text_file.close()
+        text_file = open(filePath, "r")
+        # text_file.seek(0)
+        saveDir = os.path.dirname(__file__) + '\\TempData'
+        saveName = "Output" + stock + ".txt"
+        savePath = os.path.join(saveDir, saveName)
+        saveFile = open(savePath, "w")
+        saveFile.write(text_file.readline())
+        for line in reversed(text_file.readlines()):
+            saveFile.write(line)
+
+        saveFile.close()
+        text_file.close()
+
         return sourceCode
                 
     except Exception,e:
