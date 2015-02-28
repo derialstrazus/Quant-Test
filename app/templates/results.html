@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Test page</title>
+</head>
+
+<body>
+    <h1>Looks like you wanted to analyze {{ security }}</h1>
+    <p>We'll get right on it!</p>
+    <p>Here's a preview of the financial data we pulled:</p>
+    {% for lines in data %}
+        <p>{{ lines }}</p>
+    {% endfor %}
+</body>
+</html>
