@@ -2,6 +2,8 @@ from flask import render_template, redirect, url_for, request, session
 from app import app
 from .forms import SecurityForm
 from .f_pull import pullData, printStock
+from .f_analyze import runMACD
+import os
 
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/index', methods=['GET', 'POST'])
@@ -27,8 +29,16 @@ def moreResults():
 @app.route('/results/<security>', methods=['GET', 'POST'])
 def results(security):
     sourceCode = pullData(security)
-    previewData = sourceCode[:6]
-    plotData = printStock(sourceCode)
+    print sourceCode[:20]
+    previewData = sourceCode.splitlines()[:6]
+    # plotData = printStock(sourceCode)
+    fileDir = os.path.dirname(__file__) + '\\tmp'
+    fileName = "Output" + security + ".txt"
+    filePath = os.path.join(fileDir, fileName)
+
+    # readLine = "Output" + security +".txt"
+    quotes = runMACD(filePath)
+    print quotes.tail(10)
     return render_template('results.html',
                            security=security,
                            data=previewData)

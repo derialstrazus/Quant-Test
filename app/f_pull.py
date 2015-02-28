@@ -26,8 +26,11 @@ def pullData(stock):
         # start: a is month-1, b is day, c is year
 
         sourceCode = urllib2.urlopen(urlToVisit).read()
+        fileDir = os.path.dirname(__file__) + '\\tmp'
+        fileName = "Output" + stock + ".txt"
+        filePath = os.path.join(fileDir, fileName)
         print 'Pulled',stock
-        text_file = open("Output" + stock +".txt", "w")
+        text_file = open(filePath, "w")
         text_file.write(sourceCode)
         text_file.close()
         print stock + ".txt file created"

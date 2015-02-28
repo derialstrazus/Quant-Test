@@ -35,7 +35,7 @@ def runMACD(sourceCode):
 
     quotes['MACD'] = float('NaN')
     for n in range(26,len(quotes)):
-        MACD = quotes.MvgAvgShort[n] - quotes.MvgAvgLong[n]
+        MACD = quotes['MAShort'][n] - quotes['MALong'][n]
         quotes['MACD'][n] = float('%.4f' % (MACD))
 
     quotes['MACDTrigger'] = float('NaN')
@@ -45,6 +45,7 @@ def runMACD(sourceCode):
         else:
             quotes.MACDTrigger[n] = -1
 
+    return quotes
 
 def trade():
     results = 0
