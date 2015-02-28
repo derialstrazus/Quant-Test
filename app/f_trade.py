@@ -1,4 +1,4 @@
-import re
+import math
 
 def buildPortfolioDF(quotes):
     portfolio = quotes
@@ -18,7 +18,7 @@ def Trading(quotes, trigger, start, end, portfolio):
     for n in range(start, end):
         indicator = quotes[trigger][n]
         if indicator == 1:                                  #Strong buy; Commit all money
-            sharesBought = int(cash/quotes.AdjClose[n])  #Number of share to buy
+            sharesBought = int(cash/quotes.AdjClose[n])     #Number of share to buy
             sharesCost = sharesBought * quotes.AdjClose[n]  #Amount spend
             cash = cash - sharesCost
 
@@ -51,13 +51,22 @@ def Trading(quotes, trigger, start, end, portfolio):
 
 def AnnualizeReturn(start, end, portfolio):
     #regex = re.compile('201')
-    for n in range(start, end):
-        if portfolio.Date[n] == '2013-12-31':
-            startNetWorth = portfolio.NetWorth[n]
-        elif portfolio.Date[n] == '2014-12-31':
-            endNetWorth = portfolio.NetWorth[n]
-    annualReturn = (endNetWorth-startNetWorth)/startNetWorth *100
-    return annualReturn
+    annualReturn=[]
+    eachReturn=[]
+    product = 1
+    startNetWorth = portfolio.NetWorth[0]
+    endNetWorth = startNetWorth
+    for i in range(2010,2013):
+        for n in range(start, end):
+            if portfolio.Date[n][:4] == str(i):
+                startNetWorth = portfolio.NetWorth[n]
+            elif portfolio.Date[n][:4] == str(i+1):
+                endNetWorth = portfolio.NetWorth[n]
+        thisYearReturn = (endNetWorth-startNetWorth)/startNetWorth *100
+        annualReturn.append(thisYearReturn)
+        product = product * thisYearReturn
+    totalAnnualReturn = math.pow(product, 1/(len(annualReturn)))
+    return annualReturn, totalAnnualReturn
 
 
 
