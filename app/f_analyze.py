@@ -1,4 +1,5 @@
 import pandas as pd
+from numpy import std
 
 MA_SHORT = 12
 MA_LONG = 26
@@ -51,6 +52,29 @@ def runBollinger(quotes):
     quotes['DownBand'] = float('NAN')
     quotes['UpBand'] = float('NaN')
     quotes['BollingerTrigger'] = float('NaN')
+
+    for n in range(0,points):
+        pastArray.append(quotes.AdjClose[n])
+
+    for n in range(points, len(quotes)):
+        Close = quotes.AdjClose[n]
+        MvgAvg = sum(pastArray) / points
+        StdDev = std(pastArray)
+        UpBand = MvgAvg + (2*StdDev)
+        DownBand = MvgAvg - (2 * StdDev)
+        quotes['DownBand'][n]= float('%.4f' % DownBand)
+        quotes['UpBand'][n] = float('%.4f' % UpBand)
+
+        if ((Close > UpBand)):
+            quotes['BollingerTrigger'][n] = 1
+        elif ((Close < DownBand)):
+            quotes['BollingerTrigger'][n] = -1
+        elif ((Close < UpBand) & (Close > DownBand)):
+            quotes["BollingerTrigger"][n] = 0
+        pastArray.pop(0)
+        pastArray.append(quotes.AdjClose[n])
+    return quotes
+
 
 def tradeLocations(quotes):
     now = 0
