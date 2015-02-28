@@ -47,6 +47,6 @@ def Trading(quotes, trigger, start, end, portfolio):
     portfolio = portfolio[start:end]
     return portfolio
 
-
+def AnnualizeReturn(quotes, start, end, portfolio):
 
 
