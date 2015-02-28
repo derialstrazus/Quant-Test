@@ -2,7 +2,7 @@ from flask import render_template, redirect, url_for, request, session
 from app import app
 from .forms import SecurityForm
 from .f_pull import pullData, printStock
-from .f_analyze import runMACD
+from .f_analyze import runMACD, tradeLocations
 import os
 
 @app.route('/', methods=['GET', 'POST'])
@@ -39,6 +39,9 @@ def results(security):
     # readLine = "Output" + security +".txt"
     quotes = runMACD(filePath)
     print quotes.tail(10)
+    tradeat = tradeLocations(quotes)
+    print tradeat
     return render_template('results.html',
                            security=security,
-                           data=previewData)
+                           data=previewData,
+                           tradeat=tradeat)

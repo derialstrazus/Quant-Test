@@ -51,5 +51,9 @@ $(function () {
 
 <div id="container" style="height: 400px; min-width: 310px"></div>
 
+    {% for date in tradeat %}
+        <p>Trade at: {{ date }}</p>
+    {% endfor %}
+
 </body>
 </html>

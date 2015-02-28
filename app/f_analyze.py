@@ -47,6 +47,17 @@ def runMACD(sourceCode):
 
     return quotes
 
+def tradeLocations(quotes):
+    now = 0
+    locations = []
+    for n in range(26,len(quotes)):
+        if now != quotes.MACDTrigger[n]:
+            now = quotes.MACDTrigger[n]
+            locations.append(quotes.Date[n])
+
+    return locations
+
 def trade():
+
     results = 0
     return results
