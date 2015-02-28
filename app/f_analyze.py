@@ -3,13 +3,12 @@ import pandas as pd
 MA_SHORT = 12
 MA_LONG = 26
 
-def prepFile(sourceCode):
-    quotes = pd.read_csv(sourceCode)
+def prepFile(sourceFile):
+    quotes = pd.read_csv(sourceFile)
     quotes.columns = ['Date', 'Open', 'High', 'Low', 'Close', 'Volume', 'AdjClose']
     return quotes
 
-def runMACD(sourceCode):
-    quotes = prepFile(sourceCode)
+def runMACD(quotes):
 
     quotes['MAShort'] = float('NaN')
     Sum = 0

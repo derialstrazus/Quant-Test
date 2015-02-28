@@ -1,3 +1,11 @@
+def buildPortfolioDF(quotes):
+    portfolio = quotes
+    portfolio = portfolio.drop(['Open', 'High', 'Low', 'Close', 'Volume', 'AdjClose'], 1)
+    portfolio['Cash'] = float(0.0)
+    portfolio['Shares'] = float(0.0)
+    portfolio['SharePrice'] = float(0.0)
+    portfolio['NetWorth'] = float(0.0)
+    return portfolio
 
 def MACDTrading(quotes, trigger, start, end):
     shares = 0
