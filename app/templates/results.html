@@ -113,9 +113,6 @@ $(function () {
         <ul class="nav">
           <li><a href="{{ url_for('index') }}">Home</a></li>
         </ul>
-      <div class="nav">
-        <ul>Created by: Derek Lee, Benedict Lee and Cameron Heskett</ul>
-      </div>
     </div>
   </div>
   <div class="row">
@@ -129,7 +126,7 @@ $(function () {
             </h1>
         </div>
         <p>Here's a preview of the financial data we pulled:</p>
-        <table border="1" style="width:80%">
+        <table border="1" style="width:80%" class="table-bordered">
             {% for eachLine in data %}
                 <tr>
                 {% for eachItem in eachLine %}
