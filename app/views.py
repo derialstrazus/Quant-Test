@@ -1,7 +1,7 @@
 from flask import render_template, redirect, url_for, request, session
 from app import app
 from .forms import SecurityForm
-from .f_pull import pullData, printStock
+from .f_pull import pullData, printStock, parseNetWorth
 from .f_analyze import prepFile, runMACD, tradeLocations, runBollinger
 from .f_trade import Trading, buildPortfolioDF, AnnualizeReturn, Benchmark
 import os
@@ -134,3 +134,19 @@ def results(security):
                            Benchmark= portfolio.Benchmark[len(portfolio)-1],
                            resultYears=resultYears,
                            numYears=numYears)
+
+
+@app.route('/compare', methods=['GET', 'POST'])
+def compare():
+
+    #listjsons = ('OutputMSFT.json', 'OutputF.json', 'OutputGM.json')
+    #listnames = ('MSFT', 'F', 'GM')
+
+    listjsons = ('Benchmark.json', 'NetWorth.json')
+    listnames = ('Benchmark', 'NetWorth')
+
+    parseNetWorth("PortfolioTCKOutput.txt")
+
+    return render_template('compare.html',
+                           names=listnames,
+                           jsonname=listjsons)
