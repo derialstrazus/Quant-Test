@@ -1,5 +1,6 @@
 import math
 import os
+import pdb
 
 def buildPortfolioDF(quotes):
     portfolio = quotes
@@ -27,7 +28,7 @@ def Trading(quotes, trigger, start, end, portfolio):
             shares = shares + sharesBought                  #total shares held
             sharesValue = shares * quotes.AdjClose[n]
             netWorth = cash + sharesValue
-            print '%s: Bought %d shares, giving net worth of  %.2f' % (quotes.Date[n], sharesBought, netWorth )
+            # print '%s: Bought %d shares, giving net worth of  %.2f' % (quotes.Date[n], sharesBought, netWorth )
         elif indicator == 0:
             pass
         else:
@@ -40,7 +41,7 @@ def Trading(quotes, trigger, start, end, portfolio):
             sharesValue = shares * quotes.AdjClose[n]               #current value of shares
 
             netWorth = cash + sharesValue
-            print '%s: Sold %d shares, giving net worth of  %.2f' % (quotes.Date[n], sharesQuantity, netWorth )
+            # print '%s: Sold %d shares, giving net worth of  %.2f' % (quotes.Date[n], sharesQuantity, netWorth )
 
         portfolio.Cash[n] = cash
         portfolio.Shares[n] = shares
@@ -67,7 +68,7 @@ def Benchmark(quotes, start, end, portfolio):
             shares = shares + sharesBought                  #total shares held
             sharesValue = shares * quotes.AdjClose[n]
             netWorth = cash + sharesValue
-            print '%s: Bought %d shares, giving net worth of  %.2f' % (quotes.Date[n], sharesBought, netWorth )
+            # print '%s: Bought %d shares, giving net worth of  %.2f' % (quotes.Date[n], sharesBought, netWorth )
         elif n == end:
             sharesQuantity = int(shares)        #Number of shares to sell
             shares = shares - sharesQuantity    #Currently holding shares
@@ -78,7 +79,7 @@ def Benchmark(quotes, start, end, portfolio):
             sharesValue = shares * quotes.AdjClose[n]               #current value of shares
 
             netWorth = cash + sharesValue
-            print '%s: Sold %d shares, giving net worth of  %.2f' % (quotes.Date[n], sharesValueSold, netWorth )
+            # print '%s: Sold %d shares, giving net worth of  %.2f' % (quotes.Date[n], sharesValueSold, netWorth )
             return portfolio
         else:
             pass
@@ -104,13 +105,20 @@ def AnnualizeReturn(start, end, portfolio):
     startBenchmark = portfolio.Benchmark[0]
     endBenchmark = startBenchmark
     for i in range(start,end):          #years
+        print "Year %d:" % i
+        startStop = 0
+        endStop = 0
         for n in range(0, len(portfolio)):          #whole index
-            if portfolio.Date[n][:4] == str(i):
+            if (portfolio.Date[n][:4] == str(i)) & (startStop == 0):
                 startNetWorth = portfolio.NetWorth[n]
                 startBenchmark = portfolio.Benchmark[n]
-            elif portfolio.Date[n][:4] == str(i+1):
+                startStop = 1
+                print 'Start at index %d at date %s with benchmark: %d' % (n, portfolio.Date[n], portfolio.Benchmark[n])
+            elif (portfolio.Date[n][:4] == str(i+1)) & (endStop == 0):
                 endNetWorth = portfolio.NetWorth[n]
                 endBenchmark = portfolio.Benchmark[n]
+                endStop =1
+                print 'End at index %d at date %s with benchmark: %d' % (n, portfolio.Date[n], portfolio.Benchmark[n])
         yearlyNetWorthReturn = (endNetWorth-startNetWorth)/startNetWorth *100  #Calculate yearly return for net worth
         yearlyBenchmarkReturn = (endBenchmark-startBenchmark)/startBenchmark *100 #Calculate yearly return for benchmark
         netWorthAnnualReturn.append(yearlyNetWorthReturn)                       #Add each annual net worth return to a list
@@ -118,6 +126,7 @@ def AnnualizeReturn(start, end, portfolio):
         netWorthProduct = netWorthProduct * (yearlyNetWorthReturn + 100)        #Getting the product of each year annual net worth return
         benchmarkProduct = benchmarkProduct * (yearlyBenchmarkReturn + 100)     #Getting the product of each year annual benchmark return
 
+        # pdb.set_trace()
     totalNetWorthReturn = math.pow(netWorthProduct, 1.0/(len(netWorthAnnualReturn))) - 100
     totalBenchmarkReturn = math.pow(benchmarkProduct, 1.0/(len(benchmarkAnnualReturn))) - 100
     # import pdb
