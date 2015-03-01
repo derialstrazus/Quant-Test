@@ -20,15 +20,23 @@ def getStocks():
     return stocksToPull
 
 
-def pullData(stock):
+def pullData(stock, start, end):
     try:
         today = datetime.date.today()
         saveDir = os.path.dirname(__file__) + "\\TempData"
         if not os.path.exists(saveDir):
             os.makedirs(saveDir)
 
+        startyear = int(start[0:4])
+        startmonth = int(start[5:7])
+        startday = int(start[8:])
+        endyear = int(end[0:4])
+        endmonth = int(end[5:7])
+        endday = int(end[8:])
+
         print '\nCurrently pulling',stock
-        urlToVisit = 'http://real-chart.finance.yahoo.com/table.csv?s=%s&d=%d&e=%d&f=%d&g=d&a=11&b=12&c=2000&ignore=.csv' % (stock, today.month - 1, today.day, today.year)
+        urlToVisit = 'http://real-chart.finance.yahoo.com/table.csv?s=%s&d=%d&e=%d&f=%d&g=d&a=%d&b=%d&c=%d&ignore=.csv' % (stock, endmonth - 1, endday, endyear, startmonth-1, startday, startyear)
+        # urlToVisit = 'http://real-chart.finance.yahoo.com/table.csv?s=%s&d=%d&e=%d&f=%d&g=d&a=11&b=12&c=2000&ignore=.csv' % (stock, today.month - 1, today.day, today.year)
         # end: d is month-1, e is day, f is year
         # start: a is month-1, b is day, c is year
 
@@ -118,3 +126,6 @@ def printStock(sourceCode):
     # plt.plot(dates,close)
     # plt.ylabel('Adj Close')
     # plt.xlabel('Dates')
+
+def dateToIndex(date):
+    return

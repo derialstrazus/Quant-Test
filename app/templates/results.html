@@ -61,7 +61,7 @@ $(function () {
 
     <p>You started with $10000, and ended up with a net worth of ${{ netWorth }}!</p></br>
     <p>Your annual return for every year is shown below:</p>
-    {% for n in range(0,3) %}
+    {% for n in range(0,numYears) %}
         <p>Annual return for {{ resultYears[n] }} is {{ '%.2f' % AnnualReturn[n] }}%</p>
     {% endfor %}
     </br><p>Your total annualize return is {{ '%.2f' % totalAnnualReturn }}%</p>

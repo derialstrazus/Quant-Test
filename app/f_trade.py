@@ -98,8 +98,8 @@ def AnnualizeReturn(start, end, portfolio):
     thisYearReturn=0
     startNetWorth = portfolio.NetWorth[0]
     endNetWorth = startNetWorth
-    for i in range(2010,2013):
-        for n in range(start, end):
+    for i in range(start,end):
+        for n in range(0, len(portfolio)):
             if portfolio.Date[n][:4] == str(i):
                 startNetWorth = portfolio.NetWorth[n]
             elif portfolio.Date[n][:4] == str(i+1):

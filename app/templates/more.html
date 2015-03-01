@@ -13,13 +13,13 @@
             <select name="strategy" required>
                 <option value="MACD">MACD</option>
                 <option value="Bollinger">Bollinger Bands</option>
-                <option value="30-Day High">30-Day High</option>
+                <option value="Benchmark">Buy and Hold</option>
             </select>
         </p>
         Start date:
         <input type="date" name="datestart" value="2000-01-01">
         End date:
-        <input type="date" name="dateend" max="2015-03-01" value="2015-02-28">
+        <input type="date" name="dateend" max={{ today }} value={{ today }}>
         <p><button type="submit">Submit</button></p>
     </form>
 </body>

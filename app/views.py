@@ -5,6 +5,7 @@ from .f_pull import pullData, printStock
 from .f_analyze import prepFile, runMACD, tradeLocations, runBollinger
 from .f_trade import Trading, buildPortfolioDF, AnnualizeReturn, Benchmark
 import os
+import datetime
 
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/index', methods=['GET', 'POST'])
@@ -18,7 +19,9 @@ def index():
 
 @app.route('/more')
 def more():
-    return render_template('more.html')
+    today = datetime.date.today()
+    return render_template('more.html',
+                           today=today)
 
 # @app.route('/moreresults', methods=['POST'])
 # def moreResults():
@@ -45,15 +48,16 @@ def moreResults():
 
     security = session['security']
     strategy = session['strategy']
-    sourceCode = pullData(security)
-    print sourceCode[:20]
+    start = session['datestart']
+    end = session['dateend']
+    sourceCode = pullData(security, start, end)
+
     previewData = sourceCode.splitlines()[:6]
-    # plotData = printStock(sourceCode)
+
     fileDir = os.path.dirname(__file__) + '\\TempData'
     fileName = "Output" + security + ".txt"
     filePath = os.path.join(fileDir, fileName)
 
-    # readLine = "Output" + security +".txt"
     quotes = prepFile(filePath)
     portfolio = buildPortfolioDF(quotes)
     if strategy == 'MACD':
@@ -67,8 +71,11 @@ def moreResults():
     #print tradeat
     trigger = strategy + 'Trigger'
     portfolio = Trading(quotes, trigger, 0, len(portfolio), portfolio)
-    AnnualReturn, totalAnnualReturn = AnnualizeReturn(0, len(portfolio), portfolio)
-    resultYears = [2011, 2012, 2013]
+    startyear = int(start[0:4])
+    endyear = int(end[0:4])
+    AnnualReturn, totalAnnualReturn = AnnualizeReturn(startyear, endyear, portfolio)
+    resultYears = range(startyear,endyear)      #the cheating method
+    numYears = len(resultYears)
     print portfolio.head(10)
     return render_template('results.html',
                            security=security,
@@ -77,7 +84,8 @@ def moreResults():
                            netWorth=portfolio.NetWorth[len(portfolio)-1],
                            AnnualReturn=AnnualReturn,
                            totalAnnualReturn=totalAnnualReturn,
-                           resultYears=resultYears)
+                           resultYears=resultYears,
+                           numYears=numYears)
 
 
 @app.route('/aftermoreresults', methods=['GET', 'POST'])
@@ -89,7 +97,7 @@ def afterMoreResults():
 
 @app.route('/results/<security>', methods=['GET', 'POST'])
 def results(security):
-    sourceCode = pullData(security)
+    sourceCode = pullData(security, '2000-01-01','2015-02-28')
     print sourceCode[:20]
     previewData = sourceCode.splitlines()[:6]
     # plotData = printStock(sourceCode)

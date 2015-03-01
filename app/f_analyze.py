@@ -4,7 +4,7 @@ from numpy import std
 MA_SHORT = 12
 MA_LONG = 26
 
-pd.options.mode.chained_assignment = None
+# pd.options.mode.chained_assignment = None
 
 def prepFile(sourceFile):
     quotes = pd.read_csv(sourceFile)
@@ -87,8 +87,3 @@ def tradeLocations(quotes):
             locations.append(quotes.Date[n])
 
     return locations
-
-def trade():
-
-    results = 0
-    return results
