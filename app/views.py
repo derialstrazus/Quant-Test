@@ -3,7 +3,7 @@ from app import app
 from .forms import SecurityForm
 from .f_pull import pullData, printStock, parseNetWorth
 from .f_analyze import prepFile, runMACD, tradeLocations, runBollinger
-from .f_trade import Trading, buildPortfolioDF, AnnualizeReturn, Benchmark
+from .f_trade import Trading, buildPortfolioDF, AnnualizeReturn, Benchmark, gainNLoss
 import os
 import datetime
 import locale
@@ -80,6 +80,7 @@ def moreResults():
     portfolio = Benchmark(quotes, 0, len(portfolio), portfolio)
     startyear = int(start[0:4])
     endyear = int(end[0:4])
+    gainLoss = gainNLoss(startyear, endyear, portfolio)
 
     fileDir = os.path.dirname(__file__) + '\\TempData'
     fileName = "portfolio" + security + strategy +".txt"
@@ -99,6 +100,7 @@ def moreResults():
                            data=previewData,
                            #tradeat=tradeat,
                            netWorth=netWorth,
+                           gainLoss = gainLoss,
                            netWorthAnnualReturn=netWorthAnnualReturn,
                            benchmarkAnnualReturn=benchmarkAnnualReturn,
                            totalNetWorthReturn=totalNetWorthReturn,
@@ -147,6 +149,7 @@ def results(security):
     portfolio = Benchmark(quotes, 0, len(portfolio), portfolio)
     startyear = int(start[0:4])
     endyear = int(end[0:4])
+    gainLoss = gainNLoss(startyear, endyear, portfolio)
     fileDir = os.path.dirname(__file__) + '\\TempData'
     fileName = "portfolio" + security + ".txt"
     filePath = os.path.join(fileDir, fileName)
@@ -167,6 +170,7 @@ def results(security):
                            data=previewData,
                            #tradeat=tradeat,
                            netWorth=netWorth,
+                           gainLoss = gainLoss,
                            netWorthAnnualReturn=netWorthAnnualReturn,
                            benchmarkAnnualReturn=benchmarkAnnualReturn,
                            totalNetWorthReturn=totalNetWorthReturn,

@@ -59,8 +59,8 @@ def Benchmark(quotes, start, end, portfolio):
     capital = 10000
     cash = capital
     netWorth = capital + sharesValue
-    for n in range (start,end):
-        if n == start:
+    for n in range (0,len(quotes)):
+        if n == 0:
             sharesBought = int(cash/quotes.AdjClose[n])     #Number of share to buy
             sharesCost = sharesBought * quotes.AdjClose[n]  #Amount spend
             cash = cash - sharesCost
@@ -69,7 +69,7 @@ def Benchmark(quotes, start, end, portfolio):
             sharesValue = shares * quotes.AdjClose[n]
             netWorth = cash + sharesValue
             # print '%s: Bought %d shares, giving net worth of  %.2f' % (quotes.Date[n], sharesBought, netWorth )
-        elif n == end:
+        elif n == len(quotes):
             sharesQuantity = int(shares)        #Number of shares to sell
             shares = shares - sharesQuantity    #Currently holding shares
             if shares != 0:
@@ -90,7 +90,17 @@ def Benchmark(quotes, start, end, portfolio):
     return portfolio
 
 
+def gainNLoss(start, end, portfolio):
+    initialNetWorth = 10000
+    finalNetWorth = 0
+    for n in range (0, len(portfolio.NetWorth)):
+        if n == len(portfolio)-1:
+            finalNetWorth = portfolio.NetWorth[n]
+        else:
+            pass
 
+    gainLoss = finalNetWorth - initialNetWorth
+    return gainLoss
 
 
 def AnnualizeReturn(start, end, portfolio):
