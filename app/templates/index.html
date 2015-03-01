@@ -2,8 +2,8 @@
 {%  extends "base.html" %}
 
 {% block content %}
-    <div class="container">
-         <h1 class="modal-title">Hello aspiring fund manager!</h1>
+    <div class="well well-lg">
+         <h1 class="modal-title">Hello aspiring quant trader!</h1>
          <h2>What security would you like to analyze with Bollinger Bands?</h2>
         <form role="form" action="" method="post" name="security">
             {{ form.hidden_tag() }}
@@ -13,9 +13,20 @@
             </div>
              <button type="submit" value="Submit"class="btn btn-primary">Submit</button>
         </form>
-          <div>
-              <br>
-            <p>Would you like to <a href="{{ url_for('more') }}">choose</a> which strategy to use?</p>
+        <div>
+            <br>
+            <p>You can also choose which strategy to use.</p>
+            <form action="{{ url_for('more') }}" method="get">
+                <button type="submit" value="more" class="btn btn-primary">More Options</button>
+            </form>
         </div>
+    </div>
+    </br>
+    <div class="well well-lg">
+        <h1>Technical Indicators</h1>
+        <p>Technical indicators are mathematical calculations based on historic price and/or volume information that aims to show probable financial market direction.</p>
+        <h2>Bollinger Bands</h2>
+        <p>Boolinger bands are derived as bands two standard deviations away from a simple moving average. Since standard deviation is a measure of volatility, Bollinger Band can adjust themselves to the market conditions. The bands will widen whenever the market becomes volatile.  If the price exits the upper band, it means that it is on an upward trend and is an indicator to buy.  Alternatively, if the price exits the lower band, the stock is on a downward trend and it is an indicator to sell.</p>
+        <img src="http://www.onlinetradingconcepts.com/images/technicalanalysis/BollingerBandsWMTbreakouts.gif">
     </div>
 {% endblock %}
