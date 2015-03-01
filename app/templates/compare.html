@@ -6,56 +6,19 @@
      <!-- $.getJSON("{{ url_for('static', filename=jsonname) }}", function (data) { -->
      <!--    $.getJSON('http://www.highcharts.com/samples/data/jsonp.php?filename=aapl-c.json&callback=?', function (data) { -->
     <meta charset="UTF-8">
-     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>PyStock Indicators</title>
-    <link href="{{ url_for('static', filename='style/bootstrap.min.css') }}" rel="stylesheet">
-    <title>Results Page</title>
+    <title>Test page</title>
     <script type="text/javascript" src="{{ url_for('static', filename='scripts/jquery-1.11.2.min.js') }}"></script>
-
-<script type="text/javascript">
-$(function () {
-
-    $.getJSON("{{ url_for('static', filename="json/"+jsonname) }}", function (data) {
-        // Create the chart
-        $('#container').highcharts('StockChart', {
-
-
-            rangeSelector : {
-                selected : 1
-            },
-
-            title : {
-                text : '{{ security }}  Analysis'
-            },
-
-            series : [{
-                name : '{{ security }}',
-                data : data,
-                tooltip: {
-                    valueDecimals: 2
-                }
-            }]
-        });
-    });
-
-});
-</script>
 
 <script type="text/javascript">
 $(function () {
     var seriesOptions = [],
         seriesCounter = 0,
-        names = [{% for name in namelist %}'{{ name }}'{% if not loop.last %}, {% endif %}{% endfor %}],
-        jsonnames = [{% for json in jsonlist %}'{{ json }}'{% if not loop.last %}, {% endif %}{% endfor %}],
+        names = [{% for name in names %}'{{ name }}'{% if not loop.last %}, {% endif %}{% endfor %}],
+        jsonnames = [{% for json in jsonname %}'{{ json }}'{% if not loop.last %}, {% endif %}{% endfor %}],
         // create the chart when all data is loaded
         createChart = function () {
 
-            $('#container2').highcharts('StockChart', {
-
-                title: {
-                    text : 'Benchmark  Analysis'
-                },
+            $('#container').highcharts('StockChart', {
 
                 rangeSelector: {
                     selected: 4
@@ -116,31 +79,13 @@ $(function () {
 
 </head>
 
-<body background="{{ url_for('static', filename='images/background.jpg') }}">
+<body>
 
-<h1 class="list_header">Looks like you wanted to analyze {{ security }}</h1>
-    <p>We'll get right on it!</p>
-    <p>Here's a preview of the financial data we pulled:</p>
-    {% for lines in data %}
-        <p>{{ lines }}</p>
-    {% endfor %}
-
-    <p>You started with $10000, and ended up with a net worth of ${{ netWorth }}!</p></br>
-    <p>Your annual return for every year is shown below:</p>
-    {% for n in range(0,numYears) %}
-        <p>Annual return for {{ resultYears[n] }} is {{ '%.2f' % netWorthAnnualReturn[n] }}%</p>
-    {% endfor %}
-    </br><p>Your total annualize return is {{ '%.2f' % totalNetWorthReturn }}%</p>
     <script type="text/javascript" src="{{ url_for('static', filename='scripts/exporting.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='scripts/highstock.js') }}"></script>
 
-<div id="container" class=""></div>
-<br><br>
-<div id="container2" style="height: 400px; min-width: 310px"></div>
+<div id="container" style="height: 400px; min-width: 310px"></div>
 
-    {% for date in tradeat %}
-        <p>Trade at: {{ date }}</p>
-    {% endfor %}
 
 </body>
 </html>

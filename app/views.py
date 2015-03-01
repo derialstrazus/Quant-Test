@@ -1,7 +1,7 @@
 from flask import render_template, redirect, url_for, request, session
 from app import app
 from .forms import SecurityForm
-from .f_pull import pullData, printStock
+from .f_pull import pullData, printStock, parseNetWorth
 from .f_analyze import prepFile, runMACD, tradeLocations, runBollinger
 from .f_trade import Trading, buildPortfolioDF, AnnualizeReturn, Benchmark
 import os
@@ -73,7 +73,7 @@ def moreResults():
     portfolio = Trading(quotes, trigger, 0, len(portfolio), portfolio)
     startyear = int(start[0:4])
     endyear = int(end[0:4])
-    AnnualReturn, totalAnnualReturn = AnnualizeReturn(startyear, endyear, portfolio)
+    netWorthAnnualReturn, benchmarkAnnualReturn, totalNetWorthReturn, totalBenchmarkReturn = AnnualizeReturn(startyear, endyear, portfolio)
     resultYears = range(startyear,endyear)      #the cheating method
     numYears = len(resultYears)
     print portfolio.head(10)
@@ -83,8 +83,10 @@ def moreResults():
                            data=previewData,
                            #tradeat=tradeat,
                            netWorth=portfolio.NetWorth[len(portfolio)-1],
-                           AnnualReturn=AnnualReturn,
-                           totalAnnualReturn=totalAnnualReturn,
+                           netWorthAnnualReturn=netWorthAnnualReturn,
+                           benchmarkAnnualReturn=benchmarkAnnualReturn,
+                           totalNetWorthReturn=totalNetWorthReturn,
+                           totalBenchmarkReturn=totalBenchmarkReturn,
                            resultYears=resultYears,
                            numYears=numYears)
 
@@ -108,6 +110,9 @@ def results(security):
     fileName = "Output" + security + ".txt"
     filePath = os.path.join(fileDir, fileName)
 
+    listjsons = ('Benchmark.json', 'NetWorth.json')
+    listnames = ('Benchmark', 'NetWorth')
+
     # readLine = "Output" + security +".txt"
     quotes = prepFile(filePath)
     portfolio = buildPortfolioDF(quotes)
@@ -118,7 +123,7 @@ def results(security):
     portfolio = Trading(quotes, 'BollingerTrigger', 0, len(portfolio), portfolio)
     startyear = int(start[0:4])
     endyear = int(end[0:4])
-    AnnualReturn, totalAnnualReturn = AnnualizeReturn(startyear, endyear, portfolio)
+    netWorthAnnualReturn, benchmarkAnnualReturn, totalNetWorthReturn, totalBenchmarkReturn = AnnualizeReturn(startyear, endyear, portfolio)
     portfolio = Benchmark(quotes, 0, len(portfolio), portfolio)
     resultYears = range(startyear,endyear)      #the cheating method
     numYears = len(resultYears)
@@ -129,8 +134,28 @@ def results(security):
                            data=previewData,
                            #tradeat=tradeat,
                            netWorth=portfolio.NetWorth[len(portfolio)-1],
-                           AnnualReturn=AnnualReturn,
-                           totalAnnualReturn=totalAnnualReturn,
+                           netWorthAnnualReturn=netWorthAnnualReturn,
+                           benchmarkAnnualReturn=benchmarkAnnualReturn,
+                           totalNetWorthReturn=totalNetWorthReturn,
+                           totalBenchmarkReturn=totalBenchmarkReturn,
                            Benchmark= portfolio.Benchmark[len(portfolio)-1],
                            resultYears=resultYears,
-                           numYears=numYears)
+                           numYears=numYears,
+                           namelist=listnames,
+                           jsonlist=listjsons)
+
+
+@app.route('/compare', methods=['GET', 'POST'])
+def compare():
+
+    #listjsons = ('OutputMSFT.json', 'OutputF.json', 'OutputGM.json')
+    #listnames = ('MSFT', 'F', 'GM')
+
+    listjsons = ('Benchmark.json', 'NetWorth.json')
+    listnames = ('Benchmark', 'NetWorth')
+
+    parseNetWorth("PortfolioTCKOutput.txt")
+
+    return render_template('compare.html',
+                           names=listnames,
+                           jsonname=listjsons)

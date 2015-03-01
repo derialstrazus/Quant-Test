@@ -10,12 +10,12 @@ def getStocks():
     SnP100File = 'S&P100.txt'
     SnPData = open(SnP100File,'r').read()
     splitSnPData = SnPData.split('\n')
-    
+
     stocksToPull = []
     for eachLine in splitSnPData:
         splitLine = eachLine.split('\t')
         stocksToPull.append(splitLine[0])
-        
+
     print stocksToPull
     return stocksToPull
 
@@ -97,23 +97,74 @@ def pullData(stock, start, end):
         jsonfile.write('\n]')
 
         return sourceCode
-                
+
     except Exception, e:
         print 'main loop', str(e)
 
-                
+
 def csvFlipper(readFileName, saveFileName):
+    saveDir = os.path.dirname(__file__)
     readFilePath = os.path.join(saveDir, readFileName)
-    readFile = open(readFilePath,'r')
+    readFile = open(readFilePath, 'r')
     saveFilePath = os.path.join(saveDir, saveFileName)
     saveFile = open(saveFilePath, 'w')
     saveFile.write(readFile.readline())  #To keep header
-    
+
     for line in reversed(readFile.readlines()):
         saveFile.write(line)
-    
+
     readFile.close()
     saveFile.close()
+
+def parseNetWorth(fileName):
+    readDir = os.path.dirname(__file__) + '\\TempData'
+    jsonDir = os.path.dirname(__file__) + '\\static\\json'
+    readName = fileName
+    jsonName1 = "NetWorth.json"
+    jsonName2 = "Benchmark.json"
+    readPath = os.path.join(readDir, readName)
+    jsonPath1 = os.path.join(jsonDir, jsonName1)
+    jsonPath2 = os.path.join(jsonDir, jsonName2)
+
+    csvfile = open(readPath, 'r')
+    jsonfile1 = open(jsonPath1, 'w')
+    jsonfile2 = open(jsonPath2, 'w')
+
+    fieldnames1 = ("Date", "NetWorth")
+    fieldnames2 = ("Date", "Benchmark")
+
+    size = len(list(csv.DictReader(csvfile)))
+
+    csvfile.seek(0)
+    reader = csv.DictReader(csvfile)
+    cnt = 0
+    jsonfile1.write('[\n')
+    jsonfile2.write('[\n')
+    firstrow = True
+
+    for row in reader:
+        content1 = list(row[i] for i in fieldnames1)
+        content2 = list(row[j] for j in fieldnames2)
+        if firstrow is False:
+            parseddate = parse(str(content1[0]))
+            content1[0] = int(time.mktime(parseddate.timetuple()) * 1000)
+            content2[0] = content1[0]
+            content1[1] = round(float(content1[1]), 2)
+            content2[1] = round(float(content2[1]), 2)
+            json.dump(content1, jsonfile1)
+            json.dump(content2, jsonfile2)
+            if cnt < size - 1:
+                jsonfile1.write(',\n')
+                jsonfile2.write(',\n')
+        firstrow = False
+        cnt += 1
+
+    jsonfile1.write('\n]')
+    jsonfile1.close()
+
+    jsonfile2.write('\n]')
+    jsonfile2.close()
+
 
 
 def printStock(sourceCode):
