@@ -61,7 +61,7 @@ def moreResults():
     fileDir = os.path.dirname(__file__) + '\\TempData'
     fileName = "Output" + security + ".txt"
     filePath = os.path.join(fileDir, fileName)
-    listjsons = ('Benchmark.json', 'NetWorth.json')
+    listjsons = ('Benchmark'+security+strategy+'.json', 'NetWorth'+security+strategy+'.json')
     listnames = ('Benchmark', 'Strategic Net Worth')
 
     quotes = prepFile(filePath)
@@ -82,10 +82,10 @@ def moreResults():
     endyear = int(end[0:4])
 
     fileDir = os.path.dirname(__file__) + '\\TempData'
-    fileName = "portfolio" + security + ".txt"
+    fileName = "portfolio" + security + strategy +".txt"
     filePath = os.path.join(fileDir, fileName)
     portfolio.to_csv(filePath)
-    parseNetWorth(fileName)
+    parseNetWorth(fileName, security+strategy)
 
     netWorthAnnualReturn, benchmarkAnnualReturn, totalNetWorthReturn, totalBenchmarkReturn = AnnualizeReturn(startyear, endyear, portfolio)
     resultYears = range(startyear,endyear)      #the cheating method
