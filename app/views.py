@@ -131,6 +131,10 @@ def results(security):
     startyear = int(start[0:4])
     endyear = int(end[0:4])
     portfolio = Benchmark(quotes, 0, len(portfolio), portfolio)
+    fileDir = os.path.dirname(__file__) + '\\TempData'
+    fileName = "portfolio" + security + ".txt"
+    filePath = os.path.join(fileDir, fileName)
+    portfolio.to_csv(filePath)
     netWorthAnnualReturn, benchmarkAnnualReturn, totalNetWorthReturn, totalBenchmarkReturn = AnnualizeReturn(startyear, endyear, portfolio)
 
     resultYears = range(startyear,endyear)      #the cheating method
