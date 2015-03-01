@@ -115,7 +115,7 @@ def AnnualizeReturn(start, end, portfolio):
     startBenchmark = portfolio.Benchmark[0]
     endBenchmark = startBenchmark
     for i in range(start,end):          #years
-        print "Year %d:" % i
+        # print "Year %d:" % i
         startStop = 0
         endStop = 0
         for n in range(0, len(portfolio)):          #whole index
@@ -123,12 +123,12 @@ def AnnualizeReturn(start, end, portfolio):
                 startNetWorth = portfolio.NetWorth[n]
                 startBenchmark = portfolio.Benchmark[n]
                 startStop = 1
-                print 'Start at index %d at date %s with benchmark: %d' % (n, portfolio.Date[n], portfolio.Benchmark[n])
+                # print 'Start at index %d at date %s with benchmark: %d' % (n, portfolio.Date[n], portfolio.Benchmark[n])
             elif (portfolio.Date[n][:4] == str(i+1)) & (endStop == 0):
                 endNetWorth = portfolio.NetWorth[n]
                 endBenchmark = portfolio.Benchmark[n]
                 endStop =1
-                print 'End at index %d at date %s with benchmark: %d' % (n, portfolio.Date[n], portfolio.Benchmark[n])
+                # print 'End at index %d at date %s with benchmark: %d' % (n, portfolio.Date[n], portfolio.Benchmark[n])
         yearlyNetWorthReturn = (endNetWorth-startNetWorth)/startNetWorth *100  #Calculate yearly return for net worth
         yearlyBenchmarkReturn = (endBenchmark-startBenchmark)/startBenchmark *100 #Calculate yearly return for benchmark
         netWorthAnnualReturn.append(yearlyNetWorthReturn)                       #Add each annual net worth return to a list

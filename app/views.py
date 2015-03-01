@@ -93,6 +93,7 @@ def moreResults():
     numYears = len(resultYears)
     locale.setlocale(locale.LC_ALL, '')
     netWorth = locale.currency(portfolio.NetWorth[len(portfolio)-1], grouping=True)
+    gainLoss = locale.currency(gainLoss, grouping=True)
     print portfolio.head(10)
     return render_template('results.html',
                            jsonname='Output' + security + '.json',
@@ -163,6 +164,7 @@ def results(security):
     numYears = len(resultYears)
     locale.setlocale(locale.LC_ALL, '')
     netWorth = locale.currency(portfolio.NetWorth[len(portfolio)-1], grouping=True)
+    gainLoss = locale.currency(gainLoss, grouping=True)
     print portfolio.head(10)
     return render_template('results.html',
                            jsonname='Output' + security + '.json',
