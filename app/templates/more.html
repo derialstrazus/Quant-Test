@@ -1,12 +1,9 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title>PyStock Indicators</title>
-</head>
+<!-- extends base layout -->
+{%  extends "base.html" %}
 
-<body>
-    <h1>Hello aspiring fund manager!</h1>
+{% block content %}
+    <div class="well well-lg">
+    <h1>Hello aspiring quant traders!</h1>
     <form action="{{ url_for('moreResults') }}" method="post">
         <p><label>Security:</label><input type="text" name="security" required></p>
         <p><label>Strategy:</label>
@@ -22,5 +19,6 @@
         <input type="date" name="dateend" max={{ today }} value={{ today }}>
         <p><button type="submit">Submit</button></p>
     </form>
-</body>
-</html>
+    </div>
+
+{% endblock %}
