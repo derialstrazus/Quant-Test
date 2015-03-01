@@ -13,10 +13,15 @@
         </div>
 
         <p>Here's a preview of the financial data we pulled:</p>
-        {% for lines in data %}
-            <p>{{ lines }}</p>
-        {% endfor %}
-
+        <table border="1" style="width:80%">
+            {% for eachLine in data %}
+                <tr>
+                {% for eachItem in eachLine %}
+                    <th>{{ eachItem }}</th>
+                {% endfor %}
+                </tr>
+            {% endfor %}
+        </table>
         <p>You started with $10000, and ended up with a net worth of {{ netWorth }}!</p></br>
         <p>Your annual return for every year is shown below:</p>
         <table border ="1" style = "width:80%">

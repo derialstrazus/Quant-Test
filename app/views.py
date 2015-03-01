@@ -107,8 +107,12 @@ def results(security):
     end = '2015-02-28'
     sourceCode = pullData(security, start, end)
     print sourceCode[:20]
-    previewData = sourceCode.splitlines()[:6]
-    # plotData = printStock(sourceCode)
+    shortData = sourceCode.splitlines()[:6]
+    previewData = []
+    for eachLine in shortData:
+        previewData.append(eachLine.split(','))
+    # print previewData
+    # previewData = sourceCode.splitlines()[:6]
     fileDir = os.path.dirname(__file__) + '\\TempData'
     fileName = "Output" + security + ".txt"
     filePath = os.path.join(fileDir, fileName)

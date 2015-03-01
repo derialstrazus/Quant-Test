@@ -8,10 +8,13 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>PyStock Indicators</title>
-    <link href="{{ url_for('static', filename='style/bootstrap.min.css') }}" rel="stylesheet">
     <title>Results Page</title>
+
     <script type="text/javascript" src="{{ url_for('static', filename='scripts/jquery-1.11.2.min.js') }}"></script>
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="/static/css/bootstrap-responsive.min.css" rel="stylesheet">
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="/static/scripts/bootstrap.min.js"></script>
 
 <script type="text/javascript">
 $(function () {
@@ -117,49 +120,76 @@ $(function () {
 </head>
 
 <body background="{{ url_for('static', filename='images/background.jpg') }}">
+<div class="container">
+  <div class="navbar">
+    <div class="navbar-inner">
+      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </a>
+      <a class="brand" href="/">Quant_Test</a>
+        <ul class="nav">
+          <li><a href="{{ url_for('index') }}">Home</a></li>
+        </ul>
+      <div class="nav">
+        <ul>Created by: Derek Lee, Benedict Lee and Cameron Heskett</ul>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="well well-lg">
+        <div class="page-header">
+            <h1>
+                Looks like you wanted to analyze {{ security }}
+                <small>
+                    We'll get right on it!
+                </small>
+            </h1>
+        </div>
+        <p>Here's a preview of the financial data we pulled:</p>
+        <table border="1" style="width:80%">
+            {% for eachLine in data %}
+                <tr>
+                {% for eachItem in eachLine %}
+                    <th>{{ eachItem }}</th>
+                {% endfor %}
+                </tr>
+            {% endfor %}
+        </table>
 
-<h1 class="list_header">Looks like you wanted to analyze {{ security }}</h1>
-    <p>We'll get right on it!</p>
-    <p>Here's a preview of the financial data we pulled:</p>
-    {% for lines in data %}
-        <p>{{ lines }}</p>
-    {% endfor %}
-
-    <p>You started with $10000, and ended up with a net worth of ${{ netWorth }}!</p></br>
-    <p>Your annual return for every year is shown below:</p>
-    {% for n in range(0,numYears) %}
-        {%  if netWorthAnnualReturn[n] == 0 %}
-
-        {%  else %}
-            <p>Annual return for {{ resultYears[n] }} is {{ '%.2f' % netWorthAnnualReturn[n] }}%</p>
-        {% endif %}
-    {% endfor %}
-    </br><p>Your total annualize return is {{ '%.2f' % totalNetWorthReturn }}%</p>
-
-    <table border ="1" style = "width:80%">
-        <tr>
-            <th>Date</th>
-            <th>Net Worth Annual Return</th>
-            <th>Benchmark Annual Return</th>
-        </tr>
+        <p>You started with $10000, and ended up with a net worth of ${{ netWorth }}!</p></br>
+        <p>Your annual return for every year is shown below:</p>
         {% for n in range(0,numYears) %}
-        <tr>
-            <th>{{ resultYears[n] }}</th>
-            <th>{{ '%.2f' % netWorthAnnualReturn[n] }}%</th>
-            <th>{{ '%.2f' % benchmarkAnnualReturn[n] }}%</th>
-        </tr>
+            {%  if netWorthAnnualReturn[n] == 0 %}
+
+            {%  else %}
+                <p>Annual return for {{ resultYears[n] }} is {{ '%.2f' % netWorthAnnualReturn[n] }}%</p>
+            {% endif %}
         {% endfor %}
-    </table>
-    <script type="text/javascript" src="{{ url_for('static', filename='scripts/exporting.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='scripts/highstock.js') }}"></script>
+        </br><p>Your total annualize return is {{ '%.2f' % totalNetWorthReturn }}%</p>
 
-<div id="container" style="height: 400px; min-width: 310px"></div>
-<br><br>
-<div id="container2" style="height: 400px; min-width: 310px"></div>
+        <table border ="1" style = "width:80%">
+            <tr>
+                <th>Date</th>
+                <th>Net Worth Annual Return</th>
+                <th>Benchmark Annual Return</th>
+            </tr>
+            {% for n in range(0,numYears) %}
+            <tr>
+                <th>{{ resultYears[n] }}</th>
+                <th>{{ '%.2f' % netWorthAnnualReturn[n] }}%</th>
+                <th>{{ '%.2f' % benchmarkAnnualReturn[n] }}%</th>
+            </tr>
+            {% endfor %}
+        </table>
+        <script type="text/javascript" src="{{ url_for('static', filename='scripts/exporting.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='scripts/highstock.js') }}"></script>
 
-    {% for date in tradeat %}
-        <p>Trade at: {{ date }}</p>
-    {% endfor %}
+        <div id="container" style="height: 400px; min-width: 310px"></div>
+        <br><br>
+        <div id="container2" style="height: 400px; min-width: 310px"></div>
+    </div>
 
 </body>
 </html>
