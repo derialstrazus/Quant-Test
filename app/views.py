@@ -97,7 +97,9 @@ def afterMoreResults():
 
 @app.route('/results/<security>', methods=['GET', 'POST'])
 def results(security):
-    sourceCode = pullData(security, '2000-01-01','2015-02-28')
+    start = '2000-01-01'
+    end = '2015-02-28'
+    sourceCode = pullData(security, start, end)
     print sourceCode[:20]
     previewData = sourceCode.splitlines()[:6]
     # plotData = printStock(sourceCode)
@@ -113,9 +115,12 @@ def results(security):
     #tradeat = tradeLocations(quotes)
     #print tradeat
     portfolio = Trading(quotes, 'BollingerTrigger', 0, len(portfolio), portfolio)
-    AnnualReturn, totalAnnualReturn = AnnualizeReturn(0, len(portfolio), portfolio)
+    startyear = int(start[0:4])
+    endyear = int(end[0:4])
+    AnnualReturn, totalAnnualReturn = AnnualizeReturn(startyear, endyear, portfolio)
     portfolio = Benchmark(quotes, 0, len(portfolio), portfolio)
-    resultYears = [2011, 2012, 2013]
+    resultYears = range(startyear,endyear)      #the cheating method
+    numYears = len(resultYears)
     print portfolio.head(10)
     return render_template('results.html',
                            jsonname='Output' + security + '.json',
@@ -126,4 +131,5 @@ def results(security):
                            AnnualReturn=AnnualReturn,
                            totalAnnualReturn=totalAnnualReturn,
                            Benchmark= portfolio.Benchmark[len(portfolio)-1],
-                           resultYears=resultYears)
+                           resultYears=resultYears,
+                           numYears=numYears)
