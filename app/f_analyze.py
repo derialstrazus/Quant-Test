@@ -11,6 +11,10 @@ def prepFile(sourceFile):
     quotes.columns = ['Date', 'Open', 'High', 'Low', 'Close', 'Volume', 'AdjClose']
     return quotes
 
+def runBuyHold(quotes):
+    quotes['BuyHoldTrigger'] = 1
+    return quotes
+
 def runMACD(quotes):
     quotes['MAShort'] = float('NaN')
     Sum = 0
