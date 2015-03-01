@@ -126,7 +126,7 @@ $(function () {
             </h1>
         </div>
         <p>Here's a preview of the financial data we pulled:</p>
-        <table border="1" style="width:80%" class="table-bordered">
+        <table border="1" style="width:80%">
             {% for eachLine in data %}
                 <tr>
                 {% for eachItem in eachLine %}
@@ -140,7 +140,7 @@ $(function () {
         <p>The gain/loss is {{ gainLoss }}</p>
         </br>
         <p>Your annual return for every year is shown below:</p></br>
-        <table border="1" style = "width:80%">
+        <table border="1" style = "width:50%">
             <tr>
                 <th>Date</th>
                 <th>Net Worth Annual Return</th>
