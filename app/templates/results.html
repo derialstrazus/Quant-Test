@@ -62,9 +62,11 @@ $(function () {
     <p>You started with $10000, and ended up with a net worth of ${{ netWorth }}!</p></br>
     <p>Your annual return for every year is shown below:</p>
     {% for n in range(0,3) %}
-        <p>Annual return for {{ resultYears[n] }} is {{ '%.2f' % AnnualReturn[n] }}%</p>
+        <p>Annual net worth return for {{ resultYears[n] }} is {{ '%.2f' % netWorthAnnualReturn[n] }}%</p>
+        <p>Annual Benchmark return for {{ resultYears[n] }} is {{ '%.2f' % benchmarkAnnualReturn[n] }}</p>
     {% endfor %}
-    </br><p>Your total annualize return is {{ '%.2f' % totalAnnualReturn }}%</p>
+    </br><p>Your total annualize return is {{ '%.2f' % totalNetWorthReturn }}%</p>
+    <p>Your total benchmark return is {{ '%.2f' % totalBenchmarkReturn }}%</p>
     <script type="text/javascript" src="{{ url_for('static', filename='exporting.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='highstock.js') }}"></script>
 

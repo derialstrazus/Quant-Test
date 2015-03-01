@@ -1,4 +1,5 @@
 import math
+import os
 
 def buildPortfolioDF(quotes):
     portfolio = quotes
@@ -39,7 +40,7 @@ def Trading(quotes, trigger, start, end, portfolio):
             sharesValue = shares * quotes.AdjClose[n]               #current value of shares
 
             netWorth = cash + sharesValue
-            print '%s: Sold %d shares, giving net worth of  %.2f' % (quotes.Date[n], sharesValueSold, netWorth )
+            print '%s: Sold %d shares, giving net worth of  %.2f' % (quotes.Date[n], sharesQuantity, netWorth )
 
         portfolio.Cash[n] = cash
         portfolio.Shares[n] = shares
@@ -78,39 +79,54 @@ def Benchmark(quotes, start, end, portfolio):
 
             netWorth = cash + sharesValue
             print '%s: Sold %d shares, giving net worth of  %.2f' % (quotes.Date[n], sharesValueSold, netWorth )
+            return portfolio
         else:
             pass
         marketValues = sharesBought * quotes.AdjClose[n]
         netWorth = cash + marketValues
         portfolio.Benchmark[n] = netWorth
     portfolio = portfolio[start:end]
+
+    fileDir = os.path.dirname(__file__) + '\\TempData'
+    fileName = 'PortfolioTCKOutput.txt'
+    filePath = os.path.join(fileDir, fileName)
+    portfolio.to_csv(filePath)
+
     return portfolio
 
 
 
-
-
 def AnnualizeReturn(start, end, portfolio):
-    #regex = re.compile('201')
-    annualReturn=[]
-    eachReturn=[]
-    product = 1
-    thisYearReturn=0
+    netWorthAnnualReturn=[]
+    benchmarkAnnualReturn=[]
+    netWorthProduct = 1
+    benchmarkProduct = 1
+    yearlyNetWorthReturn = 0
+    yearlyBenchmarkReturn = 0
     startNetWorth = portfolio.NetWorth[0]
     endNetWorth = startNetWorth
+    startBenchmark = portfolio.Benchmark[0]
+    endBenchmark = startBenchmark
     for i in range(2010,2013):
         for n in range(start, end):
             if portfolio.Date[n][:4] == str(i):
                 startNetWorth = portfolio.NetWorth[n]
+                startBenchmark = portfolio.Benchmark[n]
             elif portfolio.Date[n][:4] == str(i+1):
                 endNetWorth = portfolio.NetWorth[n]
-        thisYearReturn = (endNetWorth-startNetWorth)/startNetWorth *100
-        annualReturn.append(thisYearReturn)
-        product = product * (thisYearReturn + 100)
-        # import pdb
-        # pdb.set_trace()
-    totalAnnualReturn = math.pow(product, 1.0/(len(annualReturn))) - 100
-    return annualReturn, totalAnnualReturn
+                endBenchmark = portfolio.Benchmark[n]
+        yearlyNetWorthReturn = (endNetWorth-startNetWorth)/startNetWorth *100  #Calculate yearly return for net worth
+        yearlyBenchmarkReturn = (endBenchmark-startBenchmark)/startBenchmark *100 #Calculate yearly return for benchmark
+        netWorthAnnualReturn.append(yearlyNetWorthReturn)                       #Add each annual net worth return to a list
+        benchmarkAnnualReturn.append(yearlyBenchmarkReturn)                     #Add each annual benchmark return to a list
+        netWorthProduct = netWorthProduct * (yearlyNetWorthReturn + 100)        #Getting the product of each year annual net worth return
+        benchmarkProduct = benchmarkProduct * (yearlyBenchmarkReturn + 100)     #Getting the product of each year annual benchmark return
+
+    totalNetWorthReturn = math.pow(netWorthProduct, 1.0/(len(netWorthAnnualReturn))) - 100
+    totalBenchmarkReturn = math.pow(benchmarkProduct, 1.0/(len(benchmarkAnnualReturn))) - 100
+    # import pdb
+    # pdb.set_trace()
+    return netWorthAnnualReturn, benchmarkAnnualReturn, totalNetWorthReturn, totalBenchmarkReturn
 
 
 

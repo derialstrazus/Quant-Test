@@ -105,8 +105,8 @@ def results(security):
     #tradeat = tradeLocations(quotes)
     #print tradeat
     portfolio = Trading(quotes, 'BollingerTrigger', 0, len(portfolio), portfolio)
-    AnnualReturn, totalAnnualReturn = AnnualizeReturn(0, len(portfolio), portfolio)
     portfolio = Benchmark(quotes, 0, len(portfolio), portfolio)
+    netWorthAnnualReturn, benchmarkAnnualReturn, totalNetWorthReturn, totalBenchmarkReturn = AnnualizeReturn(0, len(portfolio), portfolio)
     resultYears = [2011, 2012, 2013]
     print portfolio.head(10)
     return render_template('results.html',
@@ -115,7 +115,9 @@ def results(security):
                            data=previewData,
                            #tradeat=tradeat,
                            netWorth=portfolio.NetWorth[len(portfolio)-1],
-                           AnnualReturn=AnnualReturn,
-                           totalAnnualReturn=totalAnnualReturn,
+                           netWorthAnnualReturn=netWorthAnnualReturn,
+                           benchmarkAnnualReturn=benchmarkAnnualReturn,
+                           totalNetWorthReturn=totalNetWorthReturn,
+                           totalBenchmarkReturn=totalBenchmarkReturn,
                            Benchmark= portfolio.Benchmark[len(portfolio)-1],
                            resultYears=resultYears)
