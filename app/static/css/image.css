@@ -1,0 +1,11 @@
+img{
+    max-height: 100%;
+    max-width: 100%;
+}
+
+.format{
+    position: absolute;
+    height: 45px;
+    width: 100px;
+    right: 85px;
+}
