@@ -72,10 +72,10 @@ def pullData(stock, start, end):
 
         fieldnames = ("Date", "Adj Close")
 
-        size = len(list(csv.DictReader(csvfile, fieldnames)))
+        size = len(list(csv.DictReader(csvfile)))
         csvfile.seek(0)
 
-        reader = csv.DictReader(csvfile, fieldnames)
+        reader = csv.DictReader(csvfile)
 
         cnt = 0
 
