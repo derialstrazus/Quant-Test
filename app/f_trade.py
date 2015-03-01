@@ -54,6 +54,7 @@ def AnnualizeReturn(start, end, portfolio):
     annualReturn=[]
     eachReturn=[]
     product = 1
+    thisYearReturn=0
     startNetWorth = portfolio.NetWorth[0]
     endNetWorth = startNetWorth
     for i in range(2010,2013):
@@ -65,7 +66,7 @@ def AnnualizeReturn(start, end, portfolio):
         thisYearReturn = (endNetWorth-startNetWorth)/startNetWorth *100
         annualReturn.append(thisYearReturn)
         product = product * thisYearReturn
-    totalAnnualReturn = math.pow(product, 1/(len(annualReturn)))
+    totalAnnualReturn = math.pow(product, 1.0/(len(annualReturn)))
     return annualReturn, totalAnnualReturn
 
 
