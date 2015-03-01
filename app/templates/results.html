@@ -6,7 +6,11 @@
      <!-- $.getJSON("{{ url_for('static', filename=jsonname) }}", function (data) { -->
      <!--    $.getJSON('http://www.highcharts.com/samples/data/jsonp.php?filename=aapl-c.json&callback=?', function (data) { -->
     <meta charset="UTF-8">
-    <title>Test page</title>
+     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>PyStock Indicators</title>
+    <link href="{{ url_for('static', filename='style/bootstrap.min.css') }}" rel="stylesheet">
+    <title>Results Page</title>
     <script type="text/javascript" src="{{ url_for('static', filename='scripts/jquery-1.11.2.min.js') }}"></script>
 
 <script type="text/javascript">
@@ -40,8 +44,9 @@ $(function () {
 
 </head>
 
-<body>
-    <h1>Looks like you wanted to analyze {{ security }}</h1>
+<body background="{{ url_for('static', filename='images/background.jpg') }}">
+
+<h1 class="list_header">Looks like you wanted to analyze {{ security }}</h1>
     <p>We'll get right on it!</p>
     <p>Here's a preview of the financial data we pulled:</p>
     {% for lines in data %}
