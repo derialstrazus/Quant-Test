@@ -87,8 +87,3 @@ def tradeLocations(quotes):
             locations.append(quotes.Date[n])
 
     return locations
-
-def trade():
-
-    results = 0
-    return results

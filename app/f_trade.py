@@ -86,13 +86,9 @@ def Benchmark(quotes, start, end, portfolio):
         netWorth = cash + marketValues
         portfolio.Benchmark[n] = netWorth
     portfolio = portfolio[start:end]
-
-    fileDir = os.path.dirname(__file__) + '\\TempData'
-    fileName = 'PortfolioTCKOutput.txt'
-    filePath = os.path.join(fileDir, fileName)
-    portfolio.to_csv(filePath)
-
     return portfolio
+
+
 
 
 
@@ -107,8 +103,8 @@ def AnnualizeReturn(start, end, portfolio):
     endNetWorth = startNetWorth
     startBenchmark = portfolio.Benchmark[0]
     endBenchmark = startBenchmark
-    for i in range(2010,2013):
-        for n in range(start, end):
+    for i in range(start,end):          #years
+        for n in range(0, len(portfolio)):          #whole index
             if portfolio.Date[n][:4] == str(i):
                 startNetWorth = portfolio.NetWorth[n]
                 startBenchmark = portfolio.Benchmark[n]
