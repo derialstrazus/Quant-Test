@@ -123,8 +123,9 @@ def results(security):
     portfolio = Trading(quotes, 'BollingerTrigger', 0, len(portfolio), portfolio)
     startyear = int(start[0:4])
     endyear = int(end[0:4])
-    netWorthAnnualReturn, benchmarkAnnualReturn, totalNetWorthReturn, totalBenchmarkReturn = AnnualizeReturn(startyear, endyear, portfolio)
     portfolio = Benchmark(quotes, 0, len(portfolio), portfolio)
+    netWorthAnnualReturn, benchmarkAnnualReturn, totalNetWorthReturn, totalBenchmarkReturn = AnnualizeReturn(startyear, endyear, portfolio)
+
     resultYears = range(startyear,endyear)      #the cheating method
     numYears = len(resultYears)
     print portfolio.head(10)
