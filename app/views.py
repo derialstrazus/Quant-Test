@@ -117,7 +117,7 @@ def results(security):
     fileName = "Output" + security + ".txt"
     filePath = os.path.join(fileDir, fileName)
 
-    listjsons = ('Benchmark.json', 'NetWorth.json')
+    listjsons = ('Benchmark'+security+'.json', 'NetWorth'+security+'.json')
     listnames = ('Benchmark', 'Strategic Net Worth')
 
     # readLine = "Output" + security +".txt"
@@ -136,7 +136,7 @@ def results(security):
     filePath = os.path.join(fileDir, fileName)
     portfolio.to_csv(filePath)
 
-    parseNetWorth(fileName)
+    parseNetWorth(fileName, security)
 
     netWorthAnnualReturn, benchmarkAnnualReturn, totalNetWorthReturn, totalBenchmarkReturn = AnnualizeReturn(startyear, endyear, portfolio)
 
@@ -171,7 +171,7 @@ def compare():
     listjsons = ('Benchmark.json', 'NetWorth.json')
     listnames = ('Benchmark', 'Strategic Net Worth')
 
-    parseNetWorth("PortfolioTCKOutput.txt")
+    parseNetWorth("PortfolioTCKOutput.txt","test")
 
     return render_template('compare.html',
                            names=listnames,
