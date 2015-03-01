@@ -78,6 +78,7 @@ def moreResults():
     numYears = len(resultYears)
     print portfolio.head(10)
     return render_template('results.html',
+                           jsonname='Output' + security + '.json',
                            security=security,
                            data=previewData,
                            #tradeat=tradeat,

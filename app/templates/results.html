@@ -33,18 +33,7 @@ $(function () {
                 }
             }]
         });
-    }).done( function(xhr, textStatus, errorThrown) {
-        alert("Done" + xhr.responseText);
-        alert("Done" + textStatus);
-        alert("Done" + errorThrown);
-  })
-  .fail( function(xhr, textStatus, errorThrown) {
-                alert("Done" + xhr.responseText);
-        alert("Error" + errorThrown);
-  })
-  .always(function() {
-    console.log( "complete" );
-  });
+    });
 
 });
 </script>
