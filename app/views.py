@@ -20,18 +20,72 @@ def index():
 def more():
     return render_template('more.html')
 
-@app.route('/moreresults', methods=['POST'])
+# @app.route('/moreresults', methods=['POST'])
+# def moreResults():
+#     session['security'] = request.form['security']
+#     print session['security']
+#     print '%s.txt' % session['security']
+#     session['strategy'] = request.form['strategy']
+#     session['datestart'] = request.form['datestart']
+#     session['dateend'] = request.form['dateend']
+#     # import pdb
+#     # pdb.set_trace()
+#     return render_template('moreresults.html',
+#                            security=session['security'],
+#                            strategy=session['strategy'],
+#                            datestart=session['datestart'],
+#                            dateend=session['dateend'])
+
+@app.route('/moreresults', methods=['GET','POST'])
 def moreResults():
     session['security'] = request.form['security']
-    print session['security']
-    print '%s.txt' % session['security']
     session['strategy'] = request.form['strategy']
     session['datestart'] = request.form['datestart']
     session['dateend'] = request.form['dateend']
-    return render_template('moreresults.html',
-                           security=session['security'],
-                           strategy=session['strategy'])
 
+    security = session['security']
+    strategy = session['strategy']
+    sourceCode = pullData(security)
+    print sourceCode[:20]
+    previewData = sourceCode.splitlines()[:6]
+    # plotData = printStock(sourceCode)
+    fileDir = os.path.dirname(__file__) + '\\TempData'
+    fileName = "Output" + security + ".txt"
+    filePath = os.path.join(fileDir, fileName)
+
+    # readLine = "Output" + security +".txt"
+    quotes = prepFile(filePath)
+    portfolio = buildPortfolioDF(quotes)
+    if strategy == 'MACD':
+        quotes = runMACD(quotes)
+    elif strategy == 'Bollinger':
+        quotes = runBollinger(quotes)
+    else:
+        quotes = runMACD(quotes)
+    print quotes.tail(10)
+    #tradeat = tradeLocations(quotes)
+    #print tradeat
+    trigger = strategy + 'Trigger'
+    portfolio = Trading(quotes, trigger, 0, len(portfolio), portfolio)
+    AnnualReturn, totalAnnualReturn = AnnualizeReturn(0, len(portfolio), portfolio)
+    resultYears = [2011, 2012, 2013]
+    print portfolio.head(10)
+    return render_template('results.html',
+                           security=security,
+                           data=previewData,
+                           #tradeat=tradeat,
+                           netWorth=portfolio.NetWorth[len(portfolio)-1],
+                           AnnualReturn=AnnualReturn,
+                           totalAnnualReturn=totalAnnualReturn,
+                           resultYears=resultYears)
+
+
+@app.route('/aftermoreresults', methods=['GET', 'POST'])
+def afterMoreResults():
+    security = session['security']
+    print security
+    return render_template('aftermoreresults.html',
+                           security=security)
 
 @app.route('/results/<security>', methods=['GET', 'POST'])
 def results(security):
