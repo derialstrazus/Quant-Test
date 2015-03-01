@@ -6,6 +6,7 @@ from .f_analyze import prepFile, runMACD, tradeLocations, runBollinger
 from .f_trade import Trading, buildPortfolioDF, AnnualizeReturn, Benchmark
 import os
 import datetime
+import locale
 
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/index', methods=['GET', 'POST'])
@@ -76,13 +77,15 @@ def moreResults():
     netWorthAnnualReturn, benchmarkAnnualReturn, totalNetWorthReturn, totalBenchmarkReturn = AnnualizeReturn(startyear, endyear, portfolio)
     resultYears = range(startyear,endyear)      #the cheating method
     numYears = len(resultYears)
+    locale.setlocale(locale.LC_ALL, '')
+    netWorth = locale.currency(portfolio.NetWorth[len(portfolio)-1], grouping=True)
     print portfolio.head(10)
     return render_template('results.html',
                            jsonname='Output' + security + '.json',
                            security=security,
                            data=previewData,
                            #tradeat=tradeat,
-                           netWorth=portfolio.NetWorth[len(portfolio)-1],
+                           netWorth=netWorth,
                            netWorthAnnualReturn=netWorthAnnualReturn,
                            benchmarkAnnualReturn=benchmarkAnnualReturn,
                            totalNetWorthReturn=totalNetWorthReturn,
@@ -127,13 +130,15 @@ def results(security):
     portfolio = Benchmark(quotes, 0, len(portfolio), portfolio)
     resultYears = range(startyear,endyear)      #the cheating method
     numYears = len(resultYears)
+    locale.setlocale(locale.LC_ALL, '')
+    netWorth = locale.currency(portfolio.NetWorth[len(portfolio)-1], grouping=True)
     print portfolio.head(10)
-    return render_template('results.html',
+    return render_template('results2.html',
                            jsonname='Output' + security + '.json',
                            security=security,
                            data=previewData,
                            #tradeat=tradeat,
-                           netWorth=portfolio.NetWorth[len(portfolio)-1],
+                           netWorth=netWorth,
                            netWorthAnnualReturn=netWorthAnnualReturn,
                            benchmarkAnnualReturn=benchmarkAnnualReturn,
                            totalNetWorthReturn=totalNetWorthReturn,
