@@ -54,10 +54,11 @@ def pullData(stock, start, end):
         text_file = open(filePath, "r")
         # text_file.seek(0)
         saveDir = os.path.dirname(__file__) + '\\TempData'
+        jsonDir = os.path.dirname(__file__) + '\\static\\json'
         saveName = "Output" + stock + ".txt"
         jsonName = "Output" + stock + ".json"
         savePath = os.path.join(saveDir, saveName)
-        jsonPath = os.path.join(saveDir, jsonName)
+        jsonPath = os.path.join(jsonDir, jsonName)
         saveFile = open(savePath, "w")
         saveFile.write(text_file.readline())
         for line in reversed(text_file.readlines()):

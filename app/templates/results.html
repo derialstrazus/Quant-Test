@@ -12,7 +12,7 @@
 <script type="text/javascript">
 $(function () {
 
-    $.getJSON("{{ url_for('static', filename=jsonname) }}", function (data) {
+    $.getJSON("{{ url_for('static', filename="json/"+jsonname) }}", function (data) {
         // Create the chart
         $('#container').highcharts('StockChart', {
 
@@ -22,11 +22,11 @@ $(function () {
             },
 
             title : {
-                text : 'AAPL Stock Price'
+                text : '{{ security }}  Analysis'
             },
 
             series : [{
-                name : 'AAPL',
+                name : '{{ security }}',
                 data : data,
                 tooltip: {
                     valueDecimals: 2
@@ -65,8 +65,8 @@ $(function () {
         <p>Annual return for {{ resultYears[n] }} is {{ '%.2f' % AnnualReturn[n] }}%</p>
     {% endfor %}
     </br><p>Your total annualize return is {{ '%.2f' % totalAnnualReturn }}%</p>
-    <script type="text/javascript" src="{{ url_for('static', filename='exporting.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='highstock.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='scripts/exporting.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='scripts/highstock.js') }}"></script>
 
 <div id="container" style="height: 400px; min-width: 310px"></div>
 
