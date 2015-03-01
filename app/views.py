@@ -118,7 +118,7 @@ def results(security):
     filePath = os.path.join(fileDir, fileName)
 
     listjsons = ('Benchmark.json', 'NetWorth.json')
-    listnames = ('Benchmark', 'NetWorth')
+    listnames = ('Benchmark', 'Strategic Net Worth')
 
     # readLine = "Output" + security +".txt"
     quotes = prepFile(filePath)
@@ -135,6 +135,9 @@ def results(security):
     fileName = "portfolio" + security + ".txt"
     filePath = os.path.join(fileDir, fileName)
     portfolio.to_csv(filePath)
+
+    parseNetWorth(fileName)
+
     netWorthAnnualReturn, benchmarkAnnualReturn, totalNetWorthReturn, totalBenchmarkReturn = AnnualizeReturn(startyear, endyear, portfolio)
 
     resultYears = range(startyear,endyear)      #the cheating method
@@ -166,7 +169,7 @@ def compare():
     #listnames = ('MSFT', 'F', 'GM')
 
     listjsons = ('Benchmark.json', 'NetWorth.json')
-    listnames = ('Benchmark', 'NetWorth')
+    listnames = ('Benchmark', 'Strategic Net Worth')
 
     parseNetWorth("PortfolioTCKOutput.txt")
 
