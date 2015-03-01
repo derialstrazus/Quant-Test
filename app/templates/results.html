@@ -42,6 +42,78 @@ $(function () {
 });
 </script>
 
+<script type="text/javascript">
+$(function () {
+    var seriesOptions = [],
+        seriesCounter = 0,
+        names = [{% for name in namelist %}'{{ name }}'{% if not loop.last %}, {% endif %}{% endfor %}],
+        jsonnames = [{% for json in jsonlist %}'{{ json }}'{% if not loop.last %}, {% endif %}{% endfor %}],
+        // create the chart when all data is loaded
+        createChart = function () {
+
+            $('#container2').highcharts('StockChart', {
+
+                title: {
+                    text : 'Benchmark  Analysis'
+                },
+
+                rangeSelector: {
+                    selected: 4
+                },
+
+                yAxis: {
+                    labels: {
+                        formatter: function () {
+                            return (this.value > 0 ? ' + ' : '') + this.value + '%';
+                        }
+                    },
+                    plotLines: [{
+                        value: 0,
+                        width: 2,
+                        color: 'silver'
+                    }]
+                },
+
+                plotOptions: {
+                    series: {
+                        compare: 'percent'
+                    }
+                },
+
+                tooltip: {
+                    pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.change}%)<br/>',
+                    valueDecimals: 2
+                },
+
+                series: seriesOptions
+            });
+        };
+
+    {% set count = 0 %}
+
+    $.each(names, function (i, name) {
+
+        $.getJSON('/static/json/' + jsonnames[i], function (data) {
+
+
+
+            seriesOptions[i] = {
+                name: name,
+                data: data
+            };
+
+            // As we're loading the data asynchronously, we don't know what order it will arrive. So
+            // we keep a counter and create the chart when all the data is loaded.
+            seriesCounter += 1;
+
+            if (seriesCounter === names.length) {
+                createChart();
+            }
+        });
+    });
+});
+</script>
+
 </head>
 
 <body background="{{ url_for('static', filename='images/background.jpg') }}">
@@ -62,7 +134,9 @@ $(function () {
     <script type="text/javascript" src="{{ url_for('static', filename='scripts/exporting.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='scripts/highstock.js') }}"></script>
 
-<div id="container" style="height: 400px; min-width: 310px"></div>
+<div id="container" class=""></div>
+<br><br>
+<div id="container2" style="height: 400px; min-width: 310px"></div>
 
     {% for date in tradeat %}
         <p>Trade at: {{ date }}</p>

@@ -110,6 +110,9 @@ def results(security):
     fileName = "Output" + security + ".txt"
     filePath = os.path.join(fileDir, fileName)
 
+    listjsons = ('Benchmark.json', 'NetWorth.json')
+    listnames = ('Benchmark', 'NetWorth')
+
     # readLine = "Output" + security +".txt"
     quotes = prepFile(filePath)
     portfolio = buildPortfolioDF(quotes)
@@ -137,7 +140,9 @@ def results(security):
                            totalBenchmarkReturn=totalBenchmarkReturn,
                            Benchmark= portfolio.Benchmark[len(portfolio)-1],
                            resultYears=resultYears,
-                           numYears=numYears)
+                           numYears=numYears,
+                           namelist=listnames,
+                           jsonlist=listjsons)
 
 
 @app.route('/compare', methods=['GET', 'POST'])
