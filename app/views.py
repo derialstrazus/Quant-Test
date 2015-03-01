@@ -53,11 +53,16 @@ def moreResults():
     end = session['dateend']
     sourceCode = pullData(security, start, end)
 
-    previewData = sourceCode.splitlines()[:6]
+    shortData = sourceCode.splitlines()[:6]
+    previewData = []
+    for eachLine in shortData:
+        previewData.append(eachLine.split(','))
 
     fileDir = os.path.dirname(__file__) + '\\TempData'
     fileName = "Output" + security + ".txt"
     filePath = os.path.join(fileDir, fileName)
+    listjsons = ('Benchmark.json', 'NetWorth.json')
+    listnames = ('Benchmark', 'Strategic Net Worth')
 
     quotes = prepFile(filePath)
     portfolio = buildPortfolioDF(quotes)
@@ -72,8 +77,16 @@ def moreResults():
     #print tradeat
     trigger = strategy + 'Trigger'
     portfolio = Trading(quotes, trigger, 0, len(portfolio), portfolio)
+    portfolio = Benchmark(quotes, 0, len(portfolio), portfolio)
     startyear = int(start[0:4])
     endyear = int(end[0:4])
+
+    fileDir = os.path.dirname(__file__) + '\\TempData'
+    fileName = "portfolio" + security + ".txt"
+    filePath = os.path.join(fileDir, fileName)
+    portfolio.to_csv(filePath)
+    parseNetWorth(fileName)
+
     netWorthAnnualReturn, benchmarkAnnualReturn, totalNetWorthReturn, totalBenchmarkReturn = AnnualizeReturn(startyear, endyear, portfolio)
     resultYears = range(startyear,endyear)      #the cheating method
     numYears = len(resultYears)
@@ -90,8 +103,11 @@ def moreResults():
                            benchmarkAnnualReturn=benchmarkAnnualReturn,
                            totalNetWorthReturn=totalNetWorthReturn,
                            totalBenchmarkReturn=totalBenchmarkReturn,
+                           Benchmark= portfolio.Benchmark[len(portfolio)-1],
                            resultYears=resultYears,
-                           numYears=numYears)
+                           numYears=numYears,
+                           namelist=listnames,
+                           jsonlist=listjsons)
 
 
 @app.route('/aftermoreresults', methods=['GET', 'POST'])
@@ -128,9 +144,9 @@ def results(security):
     #tradeat = tradeLocations(quotes)
     #print tradeat
     portfolio = Trading(quotes, 'BollingerTrigger', 0, len(portfolio), portfolio)
+    portfolio = Benchmark(quotes, 0, len(portfolio), portfolio)
     startyear = int(start[0:4])
     endyear = int(end[0:4])
-    portfolio = Benchmark(quotes, 0, len(portfolio), portfolio)
     fileDir = os.path.dirname(__file__) + '\\TempData'
     fileName = "portfolio" + security + ".txt"
     filePath = os.path.join(fileDir, fileName)
