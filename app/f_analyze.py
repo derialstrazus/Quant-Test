@@ -4,8 +4,6 @@ from numpy import std
 MA_SHORT = 12
 MA_LONG = 26
 
-pd.options.mode.chained_assignment = None
-
 def prepFile(sourceFile):
     quotes = pd.read_csv(sourceFile)
     quotes.columns = ['Date', 'Open', 'High', 'Low', 'Close', 'Volume', 'AdjClose']

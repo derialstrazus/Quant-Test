@@ -1,16 +1,7 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>PyStock Indicators</title>
-    <link href="{{ url_for('static', filename='style/bootstrap.min.css') }}" rel="stylesheet">
-</head>
+<!-- extends base layout -->
+{%  extends "base.html" %}
 
-<body>
-
-
+{% block content %}
     <div class="container">
          <h1 class="modal-title">Hello aspiring fund manager!</h1>
          <h2>What security would you like to analyze?</h2>
@@ -27,7 +18,7 @@
             <p>Would you like to <a href="{{ url_for('more') }}">choose</a> which strategy to use?</p>
         </div>
     </div>
-
+{% endblock %}
 
 
     <script type="text/javascript" src="{{ url_for('static', filename='scripts/jquery-1.11.2.min.js') }}"></script>
