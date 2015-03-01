@@ -4,6 +4,8 @@ from numpy import std
 MA_SHORT = 12
 MA_LONG = 26
 
+pd.options.mode.chained_assignment = None
+
 def prepFile(sourceFile):
     quotes = pd.read_csv(sourceFile)
     quotes.columns = ['Date', 'Open', 'High', 'Low', 'Close', 'Volume', 'AdjClose']
@@ -15,7 +17,7 @@ def runMACD(quotes):
     for n in range(0,MA_SHORT):
         Sum = Sum + quotes.AdjClose[n]
     MvgAvg = Sum / MA_SHORT
-    quotes['MAShort'][n] = float('%.4f' % (MvgAvg))
+    quotes['MAShort'][n] = float('%.4f' % MvgAvg)
     for n in range(MA_SHORT,len(quotes)):
         Sum = Sum - quotes.AdjClose[n-MA_SHORT] + quotes.AdjClose[n]
         MvgAvg = Sum / MA_SHORT

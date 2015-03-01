@@ -2,6 +2,9 @@ import urllib2
 import time
 import datetime
 import os
+import csv
+import json
+from dateutil.parser import parse
 
 def getStocks():
     SnP100File = 'S&P100.txt'
@@ -44,7 +47,9 @@ def pullData(stock):
         # text_file.seek(0)
         saveDir = os.path.dirname(__file__) + '\\TempData'
         saveName = "Output" + stock + ".txt"
+        jsonName = "Output" + stock + ".json"
         savePath = os.path.join(saveDir, saveName)
+        jsonPath = os.path.join(saveDir, jsonName)
         saveFile = open(savePath, "w")
         saveFile.write(text_file.readline())
         for line in reversed(text_file.readlines()):
@@ -53,9 +58,38 @@ def pullData(stock):
         saveFile.close()
         text_file.close()
 
+        csvfile = open(savePath, 'r')
+        jsonfile = open(jsonPath, 'w')
+
+        fieldnames = ("Date", "Adj Close")
+
+        size = len(list(csv.DictReader(csvfile, fieldnames)))
+        csvfile.seek(0)
+
+        reader = csv.DictReader(csvfile, fieldnames)
+
+        cnt = 0
+
+        jsonfile.write('[\n')
+
+        firstrow = True
+        for row in reader:
+            content = list(row[i] for i in fieldnames)
+            if firstrow is False:
+                parseddate = parse(str(content[0]))
+                content[0] = int(time.mktime(parseddate.timetuple()) * 1000)
+                content[1] = round(float(content[1]), 2)
+                json.dump(content, jsonfile)
+                if cnt < size - 1:
+                    jsonfile.write(',\n')
+            firstrow = False
+            cnt += 1
+
+        jsonfile.write('\n]')
+
         return sourceCode
                 
-    except Exception,e:
+    except Exception, e:
         print 'main loop', str(e)
 
                 

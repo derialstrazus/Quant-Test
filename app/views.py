@@ -110,6 +110,7 @@ def results(security):
     resultYears = [2011, 2012, 2013]
     print portfolio.head(10)
     return render_template('results.html',
+                           jsonname='Output' + security + '.json',
                            security=security,
                            data=previewData,
                            #tradeat=tradeat,
