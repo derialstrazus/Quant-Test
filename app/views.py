@@ -80,9 +80,9 @@ def moreResults():
     trigger = strategy + 'Trigger'
     portfolio = Trading(quotes, trigger, 0, len(portfolio), portfolio)
     portfolio = Benchmark(quotes, 0, len(portfolio), portfolio)
-    startyear = int(start[0:4])
+    startyear = int(quotes.Date[0][0:4])
     endyear = int(end[0:4])
-    gainLoss = gainNLoss(startyear, endyear, portfolio)
+    gainLoss, gainLossPercent = gainNLoss(startyear, endyear, portfolio)
 
     fileDir = os.path.dirname(__file__) + '\\TempData'
     fileName = "portfolio" + security + strategy +".txt"
@@ -104,6 +104,7 @@ def moreResults():
                            #tradeat=tradeat,
                            netWorth=netWorth,
                            gainLoss = gainLoss,
+                           gainLossPercent = gainLossPercent,
                            netWorthAnnualReturn=netWorthAnnualReturn,
                            benchmarkAnnualReturn=benchmarkAnnualReturn,
                            totalNetWorthReturn=totalNetWorthReturn,
@@ -150,9 +151,9 @@ def results(security):
     #print tradeat
     portfolio = Trading(quotes, 'BollingerTrigger', 0, len(portfolio), portfolio)
     portfolio = Benchmark(quotes, 0, len(portfolio), portfolio)
-    startyear = int(start[0:4])
+    startyear = int(quotes.Date[0][0:4])
     endyear = int(end[0:4])
-    gainLoss = gainNLoss(startyear, endyear, portfolio)
+    gainLoss, gainLossPercent = gainNLoss(startyear, endyear, portfolio)
     fileDir = os.path.dirname(__file__) + '\\TempData'
     fileName = "portfolio" + security + ".txt"
     filePath = os.path.join(fileDir, fileName)
@@ -175,6 +176,7 @@ def results(security):
                            #tradeat=tradeat,
                            netWorth=netWorth,
                            gainLoss = gainLoss,
+                           gainLossPercent = gainLossPercent,
                            netWorthAnnualReturn=netWorthAnnualReturn,
                            benchmarkAnnualReturn=benchmarkAnnualReturn,
                            totalNetWorthReturn=totalNetWorthReturn,

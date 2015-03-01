@@ -100,7 +100,8 @@ def gainNLoss(start, end, portfolio):
             pass
 
     gainLoss = finalNetWorth - initialNetWorth
-    return gainLoss
+    gainLossPercent = gainLoss/initialNetWorth * 100
+    return gainLoss, gainLossPercent
 
 
 def AnnualizeReturn(start, end, portfolio):

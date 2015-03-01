@@ -136,8 +136,8 @@ $(function () {
             {% endfor %}
         </table>
 
-        </br><p>We started with $10,000, and ended up with a net worth of {{ netWorth }}!</p>
-        <p>The gain/loss is {{ gainLoss }}</p>
+        </br><p>We started with $10,000 in {{ resultYears[0] }}, and in {{ resultYears[-1] }} ended up with a net worth of {{ netWorth }}!</p>
+        <p>The gain/loss is {{ gainLoss }} ({{ gainLossPercent }}%)</p>
         </br>
         <p>Your annual return for every year is shown below:</p></br>
         <table border="1" style = "width:50%">
