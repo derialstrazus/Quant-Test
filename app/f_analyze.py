@@ -4,7 +4,7 @@ from numpy import std
 MA_SHORT = 12
 MA_LONG = 26
 
-# pd.options.mode.chained_assignment = None
+#pd.options.mode.chained_assignment = None
 
 def prepFile(sourceFile):
     quotes = pd.read_csv(sourceFile)
