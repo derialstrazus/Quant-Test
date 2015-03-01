@@ -124,7 +124,7 @@ $(function () {
             <h1>
                 Looks like you wanted to analyze {{ security }}
                 <small>
-                    We'll get right on it!
+                    </br>We'll get right on it!
                 </small>
             </h1>
         </div>
@@ -148,11 +148,15 @@ $(function () {
                 <th>Benchmark Annual Return</th>
             </tr>
             {% for n in range(0,numYears) %}
+                {% if netWorthAnnualReturn[n] == 0 %}
+
+                {% else %}
             <tr>
                 <th>{{ resultYears[n] }}</th>
                 <th>{{ '%.2f' % netWorthAnnualReturn[n] }}%</th>
                 <th>{{ '%.2f' % benchmarkAnnualReturn[n] }}%</th>
             </tr>
+                {%  endif %}
             {% endfor %}
         </table>
         </br><p>Your average annual return is {{ '%.2f' % totalNetWorthReturn }}%</p>

@@ -119,12 +119,12 @@ def csvFlipper(readFileName, saveFileName):
     saveFile.close()
 
 
-def parseNetWorth(fileName):
+def parseNetWorth(fileName, security):
     readDir = os.path.dirname(__file__) + '\\TempData'
     jsonDir = os.path.dirname(__file__) + '\\static\\json'
     readName = fileName
-    jsonName1 = "NetWorth.json"
-    jsonName2 = "Benchmark.json"
+    jsonName1 = "NetWorth" + security + ".json"
+    jsonName2 = "Benchmark" + security + ".json"
     readPath = os.path.join(readDir, readName)
     jsonPath1 = os.path.join(jsonDir, jsonName1)
     jsonPath2 = os.path.join(jsonDir, jsonName2)
