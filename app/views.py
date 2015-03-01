@@ -134,7 +134,7 @@ def results(security):
     locale.setlocale(locale.LC_ALL, '')
     netWorth = locale.currency(portfolio.NetWorth[len(portfolio)-1], grouping=True)
     print portfolio.head(10)
-    return render_template('results2.html',
+    return render_template('results.html',
                            jsonname='Output' + security + '.json',
                            security=security,
                            data=previewData,
