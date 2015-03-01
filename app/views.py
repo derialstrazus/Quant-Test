@@ -73,7 +73,7 @@ def moreResults():
     portfolio = Trading(quotes, trigger, 0, len(portfolio), portfolio)
     startyear = int(start[0:4])
     endyear = int(end[0:4])
-    AnnualReturn, totalAnnualReturn = AnnualizeReturn(startyear, endyear, portfolio)
+    netWorthAnnualReturn, benchmarkAnnualReturn, totalNetWorthReturn, totalBenchmarkReturn = AnnualizeReturn(startyear, endyear, portfolio)
     resultYears = range(startyear,endyear)      #the cheating method
     numYears = len(resultYears)
     print portfolio.head(10)
@@ -83,8 +83,10 @@ def moreResults():
                            data=previewData,
                            #tradeat=tradeat,
                            netWorth=portfolio.NetWorth[len(portfolio)-1],
-                           AnnualReturn=AnnualReturn,
-                           totalAnnualReturn=totalAnnualReturn,
+                           netWorthAnnualReturn=netWorthAnnualReturn,
+                           benchmarkAnnualReturn=benchmarkAnnualReturn,
+                           totalNetWorthReturn=totalNetWorthReturn,
+                           totalBenchmarkReturn=totalBenchmarkReturn,
                            resultYears=resultYears,
                            numYears=numYears)
 
@@ -118,7 +120,7 @@ def results(security):
     portfolio = Trading(quotes, 'BollingerTrigger', 0, len(portfolio), portfolio)
     startyear = int(start[0:4])
     endyear = int(end[0:4])
-    AnnualReturn, totalAnnualReturn = AnnualizeReturn(startyear, endyear, portfolio)
+    netWorthAnnualReturn, benchmarkAnnualReturn, totalNetWorthReturn, totalBenchmarkReturn = AnnualizeReturn(startyear, endyear, portfolio)
     portfolio = Benchmark(quotes, 0, len(portfolio), portfolio)
     resultYears = range(startyear,endyear)      #the cheating method
     numYears = len(resultYears)
@@ -129,8 +131,10 @@ def results(security):
                            data=previewData,
                            #tradeat=tradeat,
                            netWorth=portfolio.NetWorth[len(portfolio)-1],
-                           AnnualReturn=AnnualReturn,
-                           totalAnnualReturn=totalAnnualReturn,
+                           netWorthAnnualReturn=netWorthAnnualReturn,
+                           benchmarkAnnualReturn=benchmarkAnnualReturn,
+                           totalNetWorthReturn=totalNetWorthReturn,
+                           totalBenchmarkReturn=totalBenchmarkReturn,
                            Benchmark= portfolio.Benchmark[len(portfolio)-1],
                            resultYears=resultYears,
                            numYears=numYears)
