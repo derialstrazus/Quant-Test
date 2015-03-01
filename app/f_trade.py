@@ -65,8 +65,10 @@ def AnnualizeReturn(start, end, portfolio):
                 endNetWorth = portfolio.NetWorth[n]
         thisYearReturn = (endNetWorth-startNetWorth)/startNetWorth *100
         annualReturn.append(thisYearReturn)
-        product = product * thisYearReturn
-    totalAnnualReturn = math.pow(product, 1.0/(len(annualReturn)))
+        product = product * (thisYearReturn + 100)
+        # import pdb
+        # pdb.set_trace()
+    totalAnnualReturn = math.pow(product, 1.0/(len(annualReturn))) - 100
     return annualReturn, totalAnnualReturn
 
 
