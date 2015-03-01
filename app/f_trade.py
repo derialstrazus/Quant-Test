@@ -7,6 +7,7 @@ def buildPortfolioDF(quotes):
     portfolio['Shares'] = float(0.0)
     portfolio['SharePrice'] = float(0.0)
     portfolio['NetWorth'] = float(0.0)
+    portfolio['Benchmark'] = float(0.0)
     return portfolio
 
 def Trading(quotes, trigger, start, end, portfolio):
@@ -48,6 +49,46 @@ def Trading(quotes, trigger, start, end, portfolio):
     performance = 100.0 * netWorth/capital
     portfolio = portfolio[start:end]
     return portfolio
+
+def Benchmark(quotes, start, end, portfolio):
+    shares = 0
+    sharesValue = 0
+    sharesBought = 0
+    capital = 10000
+    cash = capital
+    netWorth = capital + sharesValue
+    for n in range (start,end):
+        if n == start:
+            sharesBought = int(cash/quotes.AdjClose[n])     #Number of share to buy
+            sharesCost = sharesBought * quotes.AdjClose[n]  #Amount spend
+            cash = cash - sharesCost
+
+            shares = shares + sharesBought                  #total shares held
+            sharesValue = shares * quotes.AdjClose[n]
+            netWorth = cash + sharesValue
+            print '%s: Bought %d shares, giving net worth of  %.2f' % (quotes.Date[n], sharesBought, netWorth )
+        elif n == end:
+            sharesQuantity = int(shares)        #Number of shares to sell
+            shares = shares - sharesQuantity    #Currently holding shares
+            if shares != 0:
+                print 'something wrong!'
+            sharesValueSold = sharesQuantity * quotes.AdjClose[n]   #How much you sold everything for
+            cash = cash + sharesValueSold
+            sharesValue = shares * quotes.AdjClose[n]               #current value of shares
+
+            netWorth = cash + sharesValue
+            print '%s: Sold %d shares, giving net worth of  %.2f' % (quotes.Date[n], sharesValueSold, netWorth )
+        else:
+            pass
+        marketValues = sharesBought * quotes.AdjClose[n]
+        netWorth = cash + marketValues
+        portfolio.Benchmark[n] = netWorth
+    portfolio = portfolio[start:end]
+    return portfolio
+
+
+
+
 
 def AnnualizeReturn(start, end, portfolio):
     #regex = re.compile('201')

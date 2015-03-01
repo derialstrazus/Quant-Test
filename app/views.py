@@ -3,7 +3,7 @@ from app import app
 from .forms import SecurityForm
 from .f_pull import pullData, printStock
 from .f_analyze import prepFile, runMACD, tradeLocations, runBollinger
-from .f_trade import Trading, buildPortfolioDF, AnnualizeReturn
+from .f_trade import Trading, buildPortfolioDF, AnnualizeReturn, Benchmark
 import os
 
 @app.route('/', methods=['GET', 'POST'])
@@ -106,6 +106,7 @@ def results(security):
     #print tradeat
     portfolio = Trading(quotes, 'BollingerTrigger', 0, len(portfolio), portfolio)
     AnnualReturn, totalAnnualReturn = AnnualizeReturn(0, len(portfolio), portfolio)
+    portfolio = Benchmark(quotes, 0, len(portfolio), portfolio)
     resultYears = [2011, 2012, 2013]
     print portfolio.head(10)
     return render_template('results.html',
@@ -115,4 +116,5 @@ def results(security):
                            netWorth=portfolio.NetWorth[len(portfolio)-1],
                            AnnualReturn=AnnualReturn,
                            totalAnnualReturn=totalAnnualReturn,
+                           Benchmark= portfolio.Benchmark[len(portfolio)-1],
                            resultYears=resultYears)
