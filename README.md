@@ -1,2 +1,2 @@
-# PyStockIndicators
-Web app built to process and display financial data in python. Built at HackIllinois 2015
+# Quant-Test
+Web app built to backtest financial strategies.  Written in python. Built at HackIllinois 2015
