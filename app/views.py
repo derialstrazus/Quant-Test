@@ -2,7 +2,7 @@ from flask import render_template, redirect, url_for, request, session
 from app import app
 from .forms import SecurityForm
 from .f_pull import pullData, printStock, parseNetWorth
-from .f_analyze import prepFile, runMACD, tradeLocations, runBollinger, runBuyHold
+from .f_analyze import prepFile, runMACD, tradeLocations, runBollinger, runBuyHold, runMACDDiff
 from .f_trade import Trading, buildPortfolioDF, AnnualizeReturn, Benchmark, gainNLoss
 import os
 import datetime
@@ -72,6 +72,8 @@ def moreResults():
         quotes = runBollinger(quotes)
     elif strategy == 'BuyHold':
         quotes = runBuyHold(quotes)
+    elif strategy == 'MACDDiff':
+        quotes = runMACDDiff(quotes)
     else:
         quotes = runBollinger(quotes)
     print quotes.tail(10)
