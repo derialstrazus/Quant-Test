@@ -8,9 +8,13 @@ import os
 import datetime
 import locale
 
-@app.route('/', methods=['GET', 'POST'])
-@app.route('/index', methods=['GET', 'POST'])
-def index():
+@app.route('/')
+@app.route('/index')
+def home():
+    return render_template('derekleehome.html')
+
+@app.route('/quanttest', methods=['GET', 'POST'])
+def quanttest():
     form = SecurityForm()
     if form.validate_on_submit():
         security = form.security.data
